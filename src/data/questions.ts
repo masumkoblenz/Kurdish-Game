@@ -9,7 +9,7 @@ export type CategoryId =
   | 'welat'
   | 'cih'
   | 'hemu'
-
+  | 'malbat'
 export type QuizCategory = {
   id: CategoryId
   name: string
@@ -40,6 +40,7 @@ export const categories: QuizCategory[] = [
   { id: 'welat', name: 'Welat', eyebrow: 'Li ser dinyayê', emoji: '🌍', price: 400, color: 'sky' },
   { id: 'cih', name: 'Cih', eyebrow: 'Em li ku ne?', emoji: '📍', price: 500, color: 'orange' },
   { id: 'hemu', name: 'Hemû', eyebrow: 'Tevlihev', emoji: '🎲', price: 600, color: 'violet' },
+  { id: 'malbat', name: 'Malbat', eyebrow: 'Mal û kesên me', emoji: '👨‍👩‍👧‍👦', price: 700, color: 'pink' },
 ]
 
 export const questions: QuizQuestion[] = [
@@ -510,6 +511,20 @@ export const questions: QuizQuestion[] = [
   { id: 'ci-48', word: 'Kolan', meaningDe: 'Straße', category: 'cih', emoji: '🛣️', correctAnswer: 'Kolan' },
   { id: 'ci-49', word: 'Pir', meaningDe: 'Brücke', category: 'cih', emoji: '🌉', correctAnswer: 'Pir' },
   { id: 'ci-50', word: 'Meydan', meaningDe: 'Platz', category: 'cih', emoji: '🏙️', correctAnswer: 'Meydan' },
+
+  { id: 'mb-01', word: 'Dayik', meaningDe: 'Mutter', category: 'malbat', emoji: '👩', correctAnswer: 'Dayik' },
+  { id: 'mb-02', word: 'Bav', meaningDe: 'Vater', category: 'malbat', emoji: '👨', correctAnswer: 'Bav' },
+  { id: 'mb-03', word: 'Bira', meaningDe: 'Bruder', category: 'malbat', emoji: '👦', correctAnswer: 'Bira' },
+  { id: 'mb-04', word: 'Xwişk', meaningDe: 'Schwester', category: 'malbat', emoji: '👧', correctAnswer: 'Xwişk' },
+  { id: 'mb-05', word: 'Kur', meaningDe: 'Sohn', category: 'malbat', emoji: '👦', correctAnswer: 'Kur' },
+  { id: 'mb-06', word: 'Keç', meaningDe: 'Tochter', category: 'malbat', emoji: '👧', correctAnswer: 'Keç' },
+  { id: 'mb-07', word: 'Zarok', meaningDe: 'Kind', category: 'malbat', emoji: '🧒', correctAnswer: 'Zarok' },
+  { id: 'mb-08', word: 'Bavkal', meaningDe: 'Großvater', category: 'malbat', emoji: '👴', correctAnswer: 'Bavkal' },
+  { id: 'mb-09', word: 'Dapîr', meaningDe: 'Großmutter', category: 'malbat', emoji: '👵', correctAnswer: 'Dapîr' },
+  { id: 'mb-10', word: 'Ap', meaningDe: 'Onkel', category: 'malbat', emoji: '👨', correctAnswer: 'Ap' },
+  { id: 'mb-11', word: 'Xal', meaningDe: 'Onkel mütterlicherseits', category: 'malbat', emoji: '👨', correctAnswer: 'Xal' },
+  { id: 'mb-12', word: 'Met', meaningDe: 'Tante mütterlicherseits', category: 'malbat', emoji: '👩', correctAnswer: 'Met' },
+  { id: 'mb-13', word: 'Xaltî', meaningDe: 'Tante', category: 'malbat', emoji: '👩', correctAnswer: 'Xaltî' },
 ]
 
 export function getCategory(categoryId: CategoryId) {
