@@ -47,7 +47,7 @@ export const questions: QuizQuestion[] = [
   { id: 'xw-02', word: 'Nan', meaningDe: 'Brot', category: 'xwarin', emoji: '🍞', image: '/quiz/bread.svg', correctAnswer: 'Nan' },
   { id: 'xw-03', word: 'Şîr', meaningDe: 'Milch', category: 'xwarin', emoji: '🥛', correctAnswer: 'Şîr' },
   { id: 'xw-04', word: 'Goşt', meaningDe: 'Fleisch', category: 'xwarin', emoji: '🥩', correctAnswer: 'Goşt' },
-  { id: 'xw-05', word: 'Pendir', meaningDe: 'Käse', category: 'xwarin', emoji: '🧀', correctAnswer: 'Pendir' },
+  { id: 'xw-05', word: 'Pendir', meaningDe: 'Käse', category: 'xwarin', emoji: '🧀', correctAnswer: 'Penîr' },
   { id: 'xw-06', word: 'Hêk', meaningDe: 'Ei', category: 'xwarin', emoji: '🥚', correctAnswer: 'Hêk' },
   { id: 'xw-07', word: 'Mêwe', meaningDe: 'Obst', category: 'xwarin', emoji: '🍇', correctAnswer: 'Mêwe' },
   { id: 'xw-08', word: 'Sebze', meaningDe: 'Gemüse', category: 'xwarin', emoji: '🥦', correctAnswer: 'Sebze' },
