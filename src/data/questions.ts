@@ -32,6 +32,7 @@ export type QuizQuestion = {
 export const categories: QuizCategory[] = [
   { id: 'xwarin', name: 'Xwarin', eyebrow: 'Tam û xweşî', emoji: '🍎', price: 0, color: 'coral' },
   { id: 'ajalan', name: 'Ajalan', eyebrow: 'Hevalên me', emoji: '🐕', price: 0, color: 'mint' },
+    { id: 'malbat', name: 'Malbat', eyebrow: 'Mal û kesên me', emoji: '👨‍👩‍👧‍👦', price: 10, color: 'pink' },
   { id: 'wesayit', name: 'Wesayît', eyebrow: 'Li ser rê', emoji: '🚗', price: 100, color: 'blue' },
   { id: 'tist', name: 'Tişt', eyebrow: 'Dora me', emoji: '📦', price: 150, color: 'amber' },
   { id: 'xweza', name: 'Xweza', eyebrow: 'Cîhana kesk', emoji: '🌳', price: 200, color: 'green' },
@@ -40,7 +41,6 @@ export const categories: QuizCategory[] = [
   { id: 'welat', name: 'Welat', eyebrow: 'Li ser dinyayê', emoji: '🌍', price: 400, color: 'sky' },
   { id: 'cih', name: 'Cih', eyebrow: 'Em li ku ne?', emoji: '📍', price: 500, color: 'orange' },
   { id: 'hemu', name: 'Hemû', eyebrow: 'Tevlihev', emoji: '🎲', price: 600, color: 'violet' },
-  { id: 'malbat', name: 'Malbat', eyebrow: 'Mal û kesên me', emoji: '👨‍👩‍👧‍👦', price: 700, color: 'pink' },
 ]
 
 export const questions: QuizQuestion[] = [
