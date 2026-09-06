@@ -393,7 +393,7 @@ function HomeView({ player, onPlay, onUnlock, onNavigate }: { player: PlayerData
           })}
         </div>
       </section>
-      <nav className="mobile-nav"><button className="active"><Home size={20} /><span>Mal</span></button><button onClick={() => onNavigate('saved-words')}><Bookmark size={20} /><span>Wörter</span></button><button onClick={() => onNavigate('achievements')}><Award size={20} /><span>Serkeftin</span></button><button onClick={() => onNavigate('profile')}><UserRound size={20} /><span>Profîl</span></button></nav>
+      <nav className="mobile-nav"><button className="active"><Home size={20} /><span>Mal</span></button><button onClick={() => onNavigate('saved-words')}><Bookmark size={20} /><span>Peyvên min</span></button><button onClick={() => onNavigate('achievements')}><Award size={20} /><span>Serkeftin</span></button><button onClick={() => onNavigate('profile')}><UserRound size={20} /><span>Profîl</span></button></nav>
     </div>
   )
 }
