@@ -370,7 +370,7 @@ function HomeView({ player, onPlay, onUnlock, onNavigate }: { player: PlayerData
       <section className="quick-stats">
         <div><Trophy size={19} /><span>Highscore</span><strong>{player.bestScore}</strong></div>
         <button onClick={() => onNavigate('achievements')}><Award size={19} /><span>Serkeftin</span><strong>{player.achievements.length}/{achievements.length}</strong></button>
-        <button onClick={() => onNavigate('saved-words')}><Bookmark size={19} /><span>Meine Wörter</span><strong>{Object.keys(player.savedWords).length}</strong></button>
+        <button onClick={() => onNavigate('saved-words')}><Bookmark size={19} /><span>Peyvên min</span><strong>{Object.keys(player.savedWords).length}</strong></button>
         <button onClick={() => onNavigate('profile')}><UserRound size={19} /><span>Profîl</span><ChevronRight size={19} /></button>
       </section>
 
