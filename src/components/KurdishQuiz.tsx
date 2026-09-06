@@ -497,7 +497,7 @@ function SavedWordsView({ player, onBack, onRemove, onToggleLearned }: { player:
       </section>
 
       <div className="word-filters" aria-label="Wörter filtern">
-        {([['all', 'Alle'], ['open', 'Offen'], ['learned', 'Gelernt']] as const).map(([value, label]) => (
+        {([['all', 'Hemû'], ['open', 'Hîn nehat bûn'], ['learned', 'Hîn bû']] as const).map(([value, label]) => (
           <button key={value} className={filter === value ? 'active' : ''} onClick={() => setFilter(value)}>{label}</button>
         ))}
       </div>
