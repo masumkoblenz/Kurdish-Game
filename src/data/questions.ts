@@ -10,7 +10,7 @@ export type QuestionCategoryId =
   | 'pise'
   | 'welat'
   | 'cih'
-  |'hemu'
+  | 'hemu'
 
 export type CategoryId = QuestionCategoryId | 'hemu'
 
