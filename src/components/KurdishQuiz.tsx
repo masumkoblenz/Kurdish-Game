@@ -487,13 +487,17 @@ function SavedWordsView({ player, onBack, onRemove, onToggleLearned }: { player:
 
   return (
     <div className="page inner-page saved-words-page">
-      <PageHeader title="Meine Wörter" subtitle="Peyvên ku tu dixwazî fêr bibî" onBack={onBack} />
+      <PageHeader
+		title="Peyvên min"
+		subtitle="Peyvên ku tu dixwazî fêr bibî"
+		onBack={onBack}
+		/>
       <section className="words-progress-card">
         <div className="words-progress-copy">
-          <div><p className="overline">Lernfortschritt</p><h2>{savedQuestions.length} gespeichert · {learnedCount} gelernt · {openCount} offen</h2></div>
+          <div><p className="overline">Lernfortschritt</p><h2>{savedQuestions.length} hatin tomarkirin · {learnedCount} hîn bû · {openCount} hîn nebû</h2></div>
           <span>{Math.round(learnedProgress)}%</span>
         </div>
-        <div className="words-progress-track" aria-label={`${Math.round(learnedProgress)} Prozent gelernt`}><span style={{ width: `${learnedProgress}%` }} /></div>
+        <div className="words-progress-track" aria-label={`${Math.round(learnedProgress)} ji sed hîn bû`}><span style={{ width: `${learnedProgress}%` }} /></div>
       </section>
 
       <div className="word-filters" aria-label="Wörter filtern">
@@ -516,8 +520,8 @@ function SavedWordsView({ player, onBack, onRemove, onToggleLearned }: { player:
                   <p>{question.meaningDe}</p>
                 </div>
                 <div className="saved-word-actions">
-                  <button className={`learned-button ${learned ? 'active' : ''}`} onClick={() => onToggleLearned(question.id)} aria-pressed={learned}><CheckCircle2 size={18} />{learned ? 'Gelernt' : 'Als gelernt'}</button>
-                  <button className="remove-word-button" onClick={() => onRemove(question.id)} aria-label={`${question.word} entfernen`}><Trash2 size={19} /></button>
+                  <button className={`learned-button ${learned ? 'active' : ''}`} onClick={() => onToggleLearned(question.id)} aria-pressed={learned}><CheckCircle2 size={18} />{learned ? 'Hîn bû' : 'Wekî hîn bû nîşan bike'}</button>
+                  <button className="remove-word-button" onClick={() => onRemove(question.id)} aria-label={`${question.word} rake`}><Trash2 size={19} /></button>
                 </div>
               </article>
             )
@@ -526,9 +530,13 @@ function SavedWordsView({ player, onBack, onRemove, onToggleLearned }: { player:
       ) : (
         <section className="saved-words-empty">
           <div><LibraryBig size={34} /></div>
-          <h2>{savedQuestions.length === 0 ? 'Noch keine Wörter gespeichert' : 'Keine Wörter in diesem Filter'}</h2>
-          <p>{savedQuestions.length === 0 ? 'Tippe im Quiz auf das Lesezeichen, um Wörter hier zu sammeln.' : 'Wähle einen anderen Filter, um deine Wörter zu sehen.'}</p>
-          {savedQuestions.length === 0 && <button className="primary-button" onClick={onBack}><Home size={18} /> Zum Quiz</button>}
+          <h2>{savedQuestions.length === 0
+      ? 'Hêj peyv nehatine tomarkirin'
+      : 'Di vê parzûnê de peyv tune'}</h2>
+          <p>    {savedQuestions.length === 0
+      ? 'Di quizê de li ser nîşana pirtûkê bitikîne da ku peyvan li vir kom bikî.'
+      : 'Parzûnek din hilbijêre da ku peyvên xwe bibînî.'}</p>
+          {savedQuestions.length === 0 && <button className="primary-button" onClick={onBack}><Home size={18} /> Vegere quizê</button>}
         </section>
       )}
     </div>
