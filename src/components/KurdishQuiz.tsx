@@ -188,7 +188,7 @@ export default function KurdishQuiz() {
         return
       }
       setQuestionIndex((value) => value + 1)
-      setSeconds(20)
+      setSeconds(30)
       setSelectedAnswer(null)
       setAnswerWasCorrect(null)
       setHiddenAnswers([])
