@@ -1684,6 +1684,17 @@ export const questions = Array<QuizQuestion>(
 	{ id: 'wl-189', word: 'Amerîka', meaningDe: 'Amerika', category: 'welat', emoji: '🌎', correctAnswer: 'Amerîka' },
 	{ id: 'wl-190', word: 'Okyanûsya', meaningDe: 'Ozeanien', category: 'welat', emoji: '🌏', correctAnswer: 'Okyanûsya' },
 
+	{ id: 'ci-001', word: 'Bajar', meaningDe: 'Stadt', category: 'cih', emoji: '🏙️', correctAnswer: 'Bajar' },
+	{ id: 'ci-002', word: 'Gund', meaningDe: 'Dorf', category: 'cih', emoji: '🏘️', correctAnswer: 'Gund' },
+	{ id: 'ci-003', word: 'Mal', meaningDe: 'Haus', category: 'cih', emoji: '🏠', correctAnswer: 'Mal' },
+	{ id: 'ci-004', word: 'Dibistan', meaningDe: 'Schule', category: 'cih', emoji: '🏫', correctAnswer: 'Dibistan' },
+	{ id: 'ci-005', word: 'Nexweşxane', meaningDe: 'Krankenhaus', category: 'cih', emoji: '🏥', correctAnswer: 'Nexweşxane' },
+	{ id: 'ci-006', word: 'Pirtûkxane', meaningDe: 'Bibliothek', category: 'cih', emoji: '📚', correctAnswer: 'Pirtûkxane' },
+	{ id: 'ci-007', word: 'Firoşgeh', meaningDe: 'Geschäft', category: 'cih', emoji: '🏪', correctAnswer: 'Firoşgeh' },
+	{ id: 'ci-008', word: 'Restoran', meaningDe: 'Restaurant', category: 'cih', emoji: '🍽️', correctAnswer: 'Restoran' },
+	{ id: 'ci-009', word: 'Park', meaningDe: 'Park', category: 'cih', emoji: '🌳', correctAnswer: 'Park' },
+	{ id: 'ci-010', word: 'Baxçe', meaningDe: 'Garten', category: 'cih', emoji: '🌷', correctAnswer: 'Baxçe' },
+
 )
 
 export function getCategory(categoryId: CategoryId) {
