@@ -43,7 +43,7 @@ export const achievements: Achievement[] = [
   { id: 'perfect-game', icon: '✨', title: 'Bê şaşî', description: '10 bersivên rast bide.', reward: 45, isUnlocked: (_player, game) => (game?.correct ?? 0) === 10 },
   { id: 'fast-answer', icon: '⚡', title: 'Wek birûskê', description: 'Di 3 saniyeyan de bersiv bide.', reward: 15, isUnlocked: (_player, game) => (game?.maxTimeAnswer ?? 0) >= 12 },
   { id: 'veteran', icon: '🛡️', title: 'Lîstikvanê kevn', description: '25 lîstikan biqedîne.', reward: 75, isUnlocked: (player) => player.gamesPlayed >= 25 },
-  { id: 'all-open', icon: '👑', title: 'Hemû vekirî', description: 'Hemû kategoriyan veke.', reward: 100, isUnlocked: (player) => player.unlockedCategories.length === 10 },
+  { id: 'all-open', icon: '👑', title: 'Hemû vekirî', description: 'Hemû kategoriyan veke.', reward: 100, isUnlocked: (player) => player.unlockedCategories.length >= 11 },
 ]
 
 function makePlayerId() {

@@ -25,7 +25,7 @@ export const mainAreas = [
   { id: 'emoji' as const, name: 'Emojî', description: 'Peyvê ji tîpan çêbike', emoji: '😀', color: 'violet' },
 ]
 
-export const wordCategoryIds: CategoryId[] = ['xwarin', 'ajalan', 'wesayit', 'tist', 'xweza', 'werzis', 'pise', 'welat', 'cih', 'dem']
+export const wordCategoryIds: CategoryId[] = ['xwarin', 'ajalan', 'wesayit', 'tist', 'xweza', 'reng', 'werzis', 'pise', 'welat', 'cih', 'dem']
 
 export const wordCategories = wordCategoryIds.map((id) => {
   const category = categories.find((item) => item.id === id)!
