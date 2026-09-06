@@ -95,6 +95,10 @@ export default function KurdishQuiz() {
     setPlayer(loaded)
   }, [])
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [view])
+
   const updatePlayer = useCallback((updater: (current: PlayerData) => PlayerData) => {
     setPlayer((current) => {
       if (!current) return current
@@ -434,8 +438,10 @@ function QuizView({ player, question, questionIndex, seconds, lives, combo, scor
   const progress = ((questionIndex + 1) / 10) * 100
   return (
     <div className="quiz-page">
-      <header className="quiz-header"><button className="icon-button" onClick={onExit} aria-label="Vegere malê"><X /></button><div className="quiz-progress"><span style={{ width: `${progress}%` }} /></div><div className="quiz-lives">{Array.from({ length: 3 }, (_, index) => <Heart key={index} size={19} fill={index < lives ? 'currentColor' : 'none'} className={index < lives ? '' : 'lost'} />)}</div></header>
-      <div className="quiz-meta"><span>Pirsa {questionIndex + 1} / 10</span><strong><Clock3 size={17} /> {seconds}s</strong><span><Flame size={17} /> {combo} rêz</span><span>{score} xal</span></div>
+      <div className="quiz-hud">
+        <header className="quiz-header"><button className="icon-button" onClick={onExit} aria-label="Vegere malê"><X /></button><div className="quiz-progress" role="progressbar" aria-label="Pêşketina pirsan" aria-valuemin={0} aria-valuemax={10} aria-valuenow={questionIndex + 1}><span style={{ width: `${progress}%` }} /></div><div className="quiz-lives" aria-label={`${lives} jiyan mane`}>{Array.from({ length: 3 }, (_, index) => <Heart key={index} size={19} fill={index < lives ? 'currentColor' : 'none'} className={index < lives ? '' : 'lost'} />)}</div></header>
+        <div className="quiz-meta"><span className="quiz-question-count">Pirsa {questionIndex + 1} / 10</span><strong className="quiz-time"><Clock3 size={17} /> {seconds}s</strong><span className="quiz-combo"><Flame size={17} /> {combo} rêz</span><span className="quiz-score">{score} xal</span></div>
+      </div>
       <section className={`question-card ${answerWasCorrect === true ? 'correct-flash' : answerWasCorrect === false ? 'wrong-flash' : ''}`}>
         <div className="question-kicker"><span>{question.title}</span>{question.sourceQuestion && <button className={isSaved ? 'saved' : ''} onClick={onToggleSaved} aria-label={isSaved ? 'Peyvê rake' : 'Peyvê tomar bike'}>{isSaved ? <BookmarkCheck /> : <Bookmark />}</button>}</div>
         <p className="question-prompt">{question.prompt}</p>
