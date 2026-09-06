@@ -35,14 +35,14 @@ export type QuizQuestion = {
 
 export const categories: QuizCategory[] = [
   { id: 'xwarin', name: 'Xwarin', eyebrow: 'Tam û xweşî', emoji: '🍎', price: 0, color: 'coral' },
-  { id: 'ajalan', name: 'Ajalan', eyebrow: 'Hevalên me', emoji: '🐕', price: 0, color: 'mint' },
+  { id: 'ajalan', name: 'Ajalan', eyebrow: 'Hevalên me', emoji: '🐾', price: 0, color: 'mint' },
   { id: 'hejmar', name: 'Hejmar', eyebrow: 'Hejmarên me', emoji: '🔢', price: 0, color: 'violet' },
-  { id: 'dem', name: 'Dem', eyebrow: 'Dem û saet', emoji: '⏰', price: 0, color: 'indigo' },
+  { id: 'dem', name: 'Demjimêr', eyebrow: 'Dem û saet', emoji: '⏰', price: 0, color: 'indigo' },
   { id: 'wesayit', name: 'Wesayît', eyebrow: 'Li ser rê', emoji: '🚗', price: 0, color: 'blue' },
-  { id: 'tist', name: 'Tişt', eyebrow: 'Dora me', emoji: '📦', price: 0, color: 'amber' },
+  { id: 'tist', name: 'Tişt', eyebrow: 'Dora me', emoji: '🧰', price: 0, color: 'amber' },
   { id: 'xweza', name: 'Xweza', eyebrow: 'Cîhana kesk', emoji: '🌳', price: 0, color: 'green' },
   { id: 'werzis', name: 'Werzîş', eyebrow: 'Bizivîne!', emoji: '⚽', price: 0, color: 'lime' },
-  { id: 'pise', name: 'Pîşe', eyebrow: 'Kar û huner', emoji: '🩺', price: 0, color: 'rose' },
+  { id: 'pise', name: 'Pîşe', eyebrow: 'Kar û huner', emoji: '👨‍🔧', price: 0, color: 'rose' },
   { id: 'welat', name: 'Welat', eyebrow: 'Li ser dinyayê', emoji: '🌍', price: 0, color: 'sky' },
   { id: 'cih', name: 'Cih', eyebrow: 'Em li ku ne?', emoji: '📍', price: 0, color: 'orange' },
   { id: 'hemu', name: 'Hemû', eyebrow: 'Tevlihev', emoji: '🎲', price: 0, color: 'violet' },
