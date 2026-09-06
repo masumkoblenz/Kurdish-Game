@@ -2,16 +2,21 @@ import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import {
   ArrowLeft,
   Award,
+  Bookmark,
+  BookmarkCheck,
   Check,
+  CheckCircle2,
   ChevronRight,
   Clock3,
   Coins,
   Flame,
   Heart,
   Home,
+  LibraryBig,
   LockKeyhole,
   RotateCcw,
   Sparkles,
+  Trash2,
   Trophy,
   UserRound,
   X,
@@ -30,7 +35,8 @@ import {
   type PlayerData,
 } from '@/lib/player'
 
-type View = 'home' | 'quiz' | 'result' | 'profile' | 'achievements'
+type View = 'home' | 'quiz' | 'result' | 'profile' | 'achievements' | 'saved-words'
+type SavedWordsFilter = 'all' | 'open' | 'learned'
 type PlayQuestion = QuizQuestion & { options: string[] }
 type Result = { score: number; correct: number; wrong: number; coins: number; xp: number; newHighscore: boolean; category: CategoryId }
 type RoundStats = { score: number; correct: number; wrong: number; earnedCoins: number; earnedXp: number; bestCombo: number; fastestMark: number }
@@ -234,6 +240,27 @@ export default function KurdishQuiz() {
     updatePlayer((current) => ({ ...current, coins: current.coins - 10 }))
   }
 
+  const toggleSavedWord = (questionId: string) => {
+    const isSaved = Boolean(player?.savedWords[questionId])
+    updatePlayer((current) => {
+      const savedWords = { ...current.savedWords }
+      if (savedWords[questionId]) delete savedWords[questionId]
+      else savedWords[questionId] = { learned: false }
+      return { ...current, savedWords }
+    })
+    setToast(isSaved ? 'Peyv ji lîsteyê hat rakirin.' : 'Peyv hat tomarkirin.')
+  }
+
+  const toggleLearnedWord = (questionId: string) => {
+    updatePlayer((current) => ({
+      ...current,
+      savedWords: {
+        ...current.savedWords,
+        [questionId]: { learned: !current.savedWords[questionId]?.learned },
+      },
+    }))
+  }
+
   const resetPlayer = () => {
     const freshPlayer = createPlayer()
     savePlayer(freshPlayer)
@@ -263,9 +290,11 @@ export default function KurdishQuiz() {
           selectedAnswer={selectedAnswer}
           answerWasCorrect={answerWasCorrect}
           hiddenAnswers={hiddenAnswers}
+          isSaved={Boolean(player.savedWords[round[questionIndex].id])}
           onAnswer={answerQuestion}
           onFifty={useFiftyFifty}
           onTime={addTime}
+          onToggleSaved={() => toggleSavedWord(round[questionIndex].id)}
           onExit={() => setView('home')}
         />
       )}
@@ -274,6 +303,14 @@ export default function KurdishQuiz() {
       )}
       {view === 'profile' && <ProfileView player={player} onBack={() => setView('home')} onReset={() => setShowReset(true)} />}
       {view === 'achievements' && <AchievementsView player={player} onBack={() => setView('home')} />}
+      {view === 'saved-words' && (
+        <SavedWordsView
+          player={player}
+          onBack={() => setView('home')}
+          onRemove={toggleSavedWord}
+          onToggleLearned={toggleLearnedWord}
+        />
+      )}
 
       {toast && <div className="toast"><Sparkles size={18} />{toast}</div>}
       {achievementPopup.length > 0 && (
@@ -333,6 +370,7 @@ function HomeView({ player, onPlay, onUnlock, onNavigate }: { player: PlayerData
       <section className="quick-stats">
         <div><Trophy size={19} /><span>Highscore</span><strong>{player.bestScore}</strong></div>
         <button onClick={() => onNavigate('achievements')}><Award size={19} /><span>Serkeftin</span><strong>{player.achievements.length}/{achievements.length}</strong></button>
+        <button onClick={() => onNavigate('saved-words')}><Bookmark size={19} /><span>Meine Wörter</span><strong>{Object.keys(player.savedWords).length}</strong></button>
         <button onClick={() => onNavigate('profile')}><UserRound size={19} /><span>Profîl</span><ChevronRight size={19} /></button>
       </section>
 
@@ -355,15 +393,13 @@ function HomeView({ player, onPlay, onUnlock, onNavigate }: { player: PlayerData
           })}
         </div>
       </section>
-      <nav className="mobile-nav"><button className="active"><Home size={20} /><span>Mal</span></button><button onClick={() => onNavigate('achievements')}><Award size={20} /><span>Serkeftin</span></button><button onClick={() => onNavigate('profile')}><UserRound size={20} /><span>Profîl</span></button></nav>
+      <nav className="mobile-nav"><button className="active"><Home size={20} /><span>Mal</span></button><button onClick={() => onNavigate('saved-words')}><Bookmark size={20} /><span>Wörter</span></button><button onClick={() => onNavigate('achievements')}><Award size={20} /><span>Serkeftin</span></button><button onClick={() => onNavigate('profile')}><UserRound size={20} /><span>Profîl</span></button></nav>
     </div>
   )
 }
 
-function QuizView({ player, question, questionIndex, categoryId, seconds, lives, combo, score, selectedAnswer, answerWasCorrect, hiddenAnswers, onAnswer, onFifty, onTime, onExit }: { player: PlayerData; question: PlayQuestion; questionIndex: number; categoryId: CategoryId; seconds: number; lives: number; combo: number; score: number; selectedAnswer: string | null; answerWasCorrect: boolean | null; hiddenAnswers: string[]; onAnswer: (answer: string) => void; onFifty: () => void; onTime: () => void; onExit: () => void }) {
+function QuizView({ player, question, questionIndex, categoryId, seconds, lives, combo, score, selectedAnswer, answerWasCorrect, hiddenAnswers, isSaved, onAnswer, onFifty, onTime, onToggleSaved, onExit }: { player: PlayerData; question: PlayQuestion; questionIndex: number; categoryId: CategoryId; seconds: number; lives: number; combo: number; score: number; selectedAnswer: string | null; answerWasCorrect: boolean | null; hiddenAnswers: string[]; isSaved: boolean; onAnswer: (answer: string) => void; onFifty: () => void; onTime: () => void; onToggleSaved: () => void; onExit: () => void }) {
   const category = getCategory(categoryId)
-  const [imageFailed, setImageFailed] = useState(false)
-  useEffect(() => setImageFailed(false), [question.id])
   return (
     <div className="page quiz-page">
       <header className="quiz-header">
@@ -380,10 +416,11 @@ function QuizView({ player, question, questionIndex, categoryId, seconds, lives,
       </div>
 
       <section className="question-card">
+        <button className={`bookmark-button ${isSaved ? 'saved' : ''}`} onClick={onToggleSaved} aria-label={isSaved ? 'Peyv ji lîsteyê rake' : 'Peyv tomar bike'} aria-pressed={isSaved}>
+          {isSaved ? <BookmarkCheck size={23} /> : <Bookmark size={23} />}
+        </button>
         <p className="overline">Peyva rast hilbijêre</p>
-        <div className="question-visual">
-          {question.image && !imageFailed ? <img src={question.image} alt="" onError={() => setImageFailed(true)} /> : <span>{question.emoji}</span>}
-        </div>
+        <QuestionArtwork question={question} className="question-visual" />
         <h2>Ev çi ye?</h2>
         <div className="answer-grid">
           {question.options.map((option, index) => {
@@ -424,6 +461,78 @@ function ResultView({ result, onAgain, onHome }: { result: Result; onAgain: () =
 
 function PageHeader({ title, subtitle, onBack }: { title: string; subtitle: string; onBack: () => void }) {
   return <header className="inner-header"><button className="icon-button" onClick={onBack}><ArrowLeft size={22} /></button><div><p>{subtitle}</p><h1>{title}</h1></div><span /></header>
+}
+
+function QuestionArtwork({ question, className }: { question: QuizQuestion; className: string }) {
+  const [imageFailed, setImageFailed] = useState(false)
+  useEffect(() => setImageFailed(false), [question.id])
+  return (
+    <div className={className}>
+      {question.image && !imageFailed ? <img src={question.image} alt="" onError={() => setImageFailed(true)} /> : <span>{question.emoji}</span>}
+    </div>
+  )
+}
+
+function SavedWordsView({ player, onBack, onRemove, onToggleLearned }: { player: PlayerData; onBack: () => void; onRemove: (questionId: string) => void; onToggleLearned: (questionId: string) => void }) {
+  const [filter, setFilter] = useState<SavedWordsFilter>('all')
+  const savedQuestions = questions.filter((question) => player.savedWords[question.id])
+  const learnedCount = savedQuestions.filter((question) => player.savedWords[question.id]?.learned).length
+  const openCount = savedQuestions.length - learnedCount
+  const learnedProgress = savedQuestions.length > 0 ? (learnedCount / savedQuestions.length) * 100 : 0
+  const filteredQuestions = savedQuestions.filter((question) => {
+    if (filter === 'learned') return player.savedWords[question.id]?.learned
+    if (filter === 'open') return !player.savedWords[question.id]?.learned
+    return true
+  })
+
+  return (
+    <div className="page inner-page saved-words-page">
+      <PageHeader title="Meine Wörter" subtitle="Peyvên ku tu dixwazî fêr bibî" onBack={onBack} />
+      <section className="words-progress-card">
+        <div className="words-progress-copy">
+          <div><p className="overline">Lernfortschritt</p><h2>{savedQuestions.length} gespeichert · {learnedCount} gelernt · {openCount} offen</h2></div>
+          <span>{Math.round(learnedProgress)}%</span>
+        </div>
+        <div className="words-progress-track" aria-label={`${Math.round(learnedProgress)} Prozent gelernt`}><span style={{ width: `${learnedProgress}%` }} /></div>
+      </section>
+
+      <div className="word-filters" aria-label="Wörter filtern">
+        {([['all', 'Alle'], ['open', 'Offen'], ['learned', 'Gelernt']] as const).map(([value, label]) => (
+          <button key={value} className={filter === value ? 'active' : ''} onClick={() => setFilter(value)}>{label}</button>
+        ))}
+      </div>
+
+      {filteredQuestions.length > 0 ? (
+        <section className="saved-word-grid">
+          {filteredQuestions.map((question, index) => {
+            const category = getCategory(question.category)
+            const learned = player.savedWords[question.id]?.learned ?? false
+            return (
+              <article className={`saved-word-card ${learned ? 'learned' : ''}`} key={question.id} style={{ '--delay': `${index * 45}ms` } as CSSProperties}>
+                <QuestionArtwork question={question} className="saved-word-art" />
+                <div className="saved-word-content">
+                  <div className="saved-word-category"><span>{category.emoji}</span>{category.name}</div>
+                  <h2>{question.word}</h2>
+                  <p>{question.meaningDe}</p>
+                </div>
+                <div className="saved-word-actions">
+                  <button className={`learned-button ${learned ? 'active' : ''}`} onClick={() => onToggleLearned(question.id)} aria-pressed={learned}><CheckCircle2 size={18} />{learned ? 'Gelernt' : 'Als gelernt'}</button>
+                  <button className="remove-word-button" onClick={() => onRemove(question.id)} aria-label={`${question.word} entfernen`}><Trash2 size={19} /></button>
+                </div>
+              </article>
+            )
+          })}
+        </section>
+      ) : (
+        <section className="saved-words-empty">
+          <div><LibraryBig size={34} /></div>
+          <h2>{savedQuestions.length === 0 ? 'Noch keine Wörter gespeichert' : 'Keine Wörter in diesem Filter'}</h2>
+          <p>{savedQuestions.length === 0 ? 'Tippe im Quiz auf das Lesezeichen, um Wörter hier zu sammeln.' : 'Wähle einen anderen Filter, um deine Wörter zu sehen.'}</p>
+          {savedQuestions.length === 0 && <button className="primary-button" onClick={onBack}><Home size={18} /> Zum Quiz</button>}
+        </section>
+      )}
+    </div>
+  )
 }
 
 function ProfileView({ player, onBack, onReset }: { player: PlayerData; onBack: () => void; onReset: () => void }) {

@@ -1,8 +1,8 @@
-export type CategoryId =
+export type QuestionCategoryId =
   | 'xwarin'
   | 'ajalan'
   | 'hejmar'
-  | 'demjim'
+  | 'dem'
   | 'wesayit'
   | 'tist'
   | 'xweza'
@@ -10,7 +10,8 @@ export type CategoryId =
   | 'pise'
   | 'welat'
   | 'cih'
-  | 'hemu'
+
+export type CategoryId = QuestionCategoryId | 'hemu'
 
 export type QuizCategory = {
   id: CategoryId
@@ -25,7 +26,7 @@ export type QuizQuestion = {
   id: string
   word: string
   meaningDe: string
-  category: Exclude<CategoryId, 'hemu'>
+  category: QuestionCategoryId
   emoji: string
   image?: string
   correctAnswer: string
@@ -46,7 +47,7 @@ export const categories: QuizCategory[] = [
   { id: 'hemu', name: 'Hemû', eyebrow: 'Tevlihev', emoji: '🎲', price: 0, color: 'violet' },
 ]
 
-export const questions: QuizQuestion[] = [
+export const questions = Array<QuizQuestion>(
   { id: 'dj-01', word: 'Dem', meaningDe: 'Zeit', category: 'dem', emoji: '⏰', correctAnswer: 'Dem' },
   { id: 'dj-02', word: 'Saet', meaningDe: 'Uhr / Stunde', category: 'dem', emoji: '🕐', correctAnswer: 'Saet' },
   { id: 'dj-03', word: 'Deqîqe', meaningDe: 'Minute', category: 'dem', emoji: '⏱️', correctAnswer: 'Deqîqe' },
@@ -1682,7 +1683,7 @@ export const questions: QuizQuestion[] = [
 	{ id: 'wl-189', word: 'Amerîka', meaningDe: 'Amerika', category: 'welat', emoji: '🌎', correctAnswer: 'Amerîka' },
 	{ id: 'wl-190', word: 'Okyanûsya', meaningDe: 'Ozeanien', category: 'welat', emoji: '🌏', correctAnswer: 'Okyanûsya' },
 
-]
+)
 
 export function getCategory(categoryId: CategoryId) {
   return categories.find((category) => category.id === categoryId) ?? categories[0]

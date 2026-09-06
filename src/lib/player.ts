@@ -13,6 +13,7 @@ export type PlayerData = {
   bestCombo: number
   unlockedCategories: CategoryId[]
   achievements: string[]
+  savedWords: Record<string, { learned: boolean }>
 }
 
 export type Achievement = {
@@ -64,6 +65,7 @@ export function createPlayer(): PlayerData {
     bestCombo: 0,
     unlockedCategories: ['xwarin', 'ajalan'],
     achievements: [],
+    savedWords: {},
   }
 }
 
@@ -71,7 +73,8 @@ export function loadPlayer(): PlayerData {
   const saved = localStorage.getItem(PLAYER_STORAGE_KEY)
   if (!saved) return createPlayer()
   try {
-    return { ...createPlayer(), ...JSON.parse(saved) } as PlayerData
+    const parsed = JSON.parse(saved) as Partial<PlayerData>
+    return { ...createPlayer(), ...parsed, savedWords: parsed.savedWords ?? {} }
   } catch {
     return createPlayer()
   }
