@@ -223,7 +223,7 @@ export default function KurdishQuiz() {
     setSelection(nextSelection)
     setRound(tasks)
     setQuestionIndex(0)
-    setSeconds(20)
+    setSeconds(30)
     setLives(3)
     setCombo(0)
     setStats(emptyStats)
