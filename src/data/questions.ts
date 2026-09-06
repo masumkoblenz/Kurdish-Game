@@ -6,6 +6,7 @@ export type QuestionCategoryId =
   | 'wesayit'
   | 'tist'
   | 'xweza'
+  | 'reng'
   | 'werzis'
   | 'pise'
   | 'welat'
@@ -41,6 +42,7 @@ export const categories: QuizCategory[] = [
   { id: 'wesayit', name: 'Wesayît', eyebrow: 'Li ser rê', emoji: '🚗', price: 0, color: 'blue' },
   { id: 'tist', name: 'Tişt', eyebrow: 'Dora me', emoji: '🧰', price: 0, color: 'amber' },
   { id: 'xweza', name: 'Xweza', eyebrow: 'Cîhana kesk', emoji: '🌳', price: 0, color: 'green' },
+  { id: 'reng', name: 'Reng', eyebrow: 'Rengên cîhanê', emoji: '🎨', price: 0, color: 'violet' },
   { id: 'werzis', name: 'Werzîş', eyebrow: 'Bizivîne!', emoji: '⚽', price: 0, color: 'lime' },
   { id: 'pise', name: 'Pîşe', eyebrow: 'Kar û huner', emoji: '👨‍🔧', price: 0, color: 'rose' },
   { id: 'welat', name: 'Welat', eyebrow: 'Li ser dinyayê', emoji: '🌍', price: 0, color: 'sky' },
@@ -1694,6 +1696,17 @@ export const questions = Array<QuizQuestion>(
 	{ id: 'ci-008', word: 'Restoran', meaningDe: 'Restaurant', category: 'cih', emoji: '🍽️', correctAnswer: 'Restoran' },
 	{ id: 'ci-009', word: 'Park', meaningDe: 'Park', category: 'cih', emoji: '🌳', correctAnswer: 'Park' },
 	{ id: 'ci-010', word: 'Baxçe', meaningDe: 'Garten', category: 'cih', emoji: '🌷', correctAnswer: 'Baxçe' },
+
+	{ id: 'rg-001', word: 'Sor', meaningDe: 'Rot', category: 'reng', emoji: '🔴', correctAnswer: 'Sor' },
+	{ id: 'rg-002', word: 'Şîn', meaningDe: 'Blau', category: 'reng', emoji: '🔵', correctAnswer: 'Şîn' },
+	{ id: 'rg-003', word: 'Kesk', meaningDe: 'Grün', category: 'reng', emoji: '🟢', correctAnswer: 'Kesk' },
+	{ id: 'rg-004', word: 'Zer', meaningDe: 'Gelb', category: 'reng', emoji: '🟡', correctAnswer: 'Zer' },
+	{ id: 'rg-005', word: 'Reş', meaningDe: 'Schwarz', category: 'reng', emoji: '⚫', correctAnswer: 'Reş' },
+	{ id: 'rg-006', word: 'Spî', meaningDe: 'Weiß', category: 'reng', emoji: '⚪', correctAnswer: 'Spî' },
+	{ id: 'rg-007', word: 'Porteqalî', meaningDe: 'Orange', category: 'reng', emoji: '🟠', correctAnswer: 'Porteqalî' },
+	{ id: 'rg-008', word: 'Mor', meaningDe: 'Violett', category: 'reng', emoji: '🟣', correctAnswer: 'Mor' },
+	{ id: 'rg-009', word: 'Qehweyî', meaningDe: 'Braun', category: 'reng', emoji: '🟤', correctAnswer: 'Qehweyî' },
+	{ id: 'rg-010', word: 'Gewr', meaningDe: 'Grau', category: 'reng', emoji: '🩶', correctAnswer: 'Gewr' },
 
 )
 
