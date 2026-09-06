@@ -20,11 +20,11 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Kurdish Quiz · Bi Kurmancî fêr bibe',
+        title: 'KurdLingo · Bi Kurmancî fêr bibe',
       },
       {
         name: 'description',
-        content: 'Lîstika peyvan a Kurmancî bi kategorî, serkeftin, XP û Coinan.',
+        content: 'Lîstika fêrbûna Kurmancî bi peyv, tîp, hejmar, matematîk û emojiyan.',
       },
     ],
   }),
