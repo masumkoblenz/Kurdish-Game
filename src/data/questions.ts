@@ -32,18 +32,21 @@ export type QuizQuestion = {
 }
 
 export const categories: QuizCategory[] = [
-  { id: 'xwarin', name: 'Xwarin', eyebrow: 'Tam û xweşî', emoji: '🍎', price: 0, color: 'coral' },
-  { id: 'ajalan', name: 'Ajalan', eyebrow: 'Hevalên me', emoji: '🐕', price: 0, color: 'mint' },
-  { id: 'hejmar', name: 'Hejmar', eyebrow: 'Hejmarên me', emoji: '🔢', price: 550, color: 'violet' },
-  { id: 'dem', name: 'Dem', eyebrow: 'Dem û saet', emoji: '⏰', price: 550, color: 'indigo' },
-  { id: 'wesayit', name: 'Wesayît', eyebrow: 'Li ser rê', emoji: '🚗', price: 100, color: 'blue' },
-  { id: 'tist', name: 'Tişt', eyebrow: 'Dora me', emoji: '📦', price: 150, color: 'amber' },
-  { id: 'xweza', name: 'Xweza', eyebrow: 'Cîhana kesk', emoji: '🌳', price: 200, color: 'green' },
-  { id: 'werzis', name: 'Werzîş', eyebrow: 'Bizivîne!', emoji: '⚽', price: 250, color: 'lime' },
-  { id: 'pise', name: 'Pîşe', eyebrow: 'Kar û huner', emoji: '🩺', price: 300, color: 'rose' },
-  { id: 'welat', name: 'Welat', eyebrow: 'Li ser dinyayê', emoji: '🌍', price: 400, color: 'sky' },
+
+  { id: 'hejmar', name: 'Hejmar', eyebrow: 'Hejmarên me', emoji: '🔢', price: 0, color: 'violet' },
+  { id: 'dem', name: 'Dem', eyebrow: 'Dem û saet', emoji: '⏰', price: 0, color: 'indigo' },
+	
+  { id: 'xwarin', name: 'Xwarin', eyebrow: 'Tam û xweşî', emoji: '🍎', price: 100, color: 'coral' },
+  { id: 'ajalan', name: 'Ajalan', eyebrow: 'Hevalên me', emoji: '🐕', price: 150, color: 'mint' },
+
+  { id: 'wesayit', name: 'Wesayît', eyebrow: 'Li ser rê', emoji: '🚗', price: 200, color: 'blue' },
+  { id: 'tist', name: 'Tişt', eyebrow: 'Dora me', emoji: '📦', price: 250, color: 'amber' },
+  { id: 'xweza', name: 'Xweza', eyebrow: 'Cîhana kesk', emoji: '🌳', price: 300, color: 'green' },
+  { id: 'werzis', name: 'Werzîş', eyebrow: 'Bizivîne!', emoji: '⚽', price: 350, color: 'lime' },
+  { id: 'pise', name: 'Pîşe', eyebrow: 'Kar û huner', emoji: '🩺', price: 400, color: 'rose' },
+  { id: 'welat', name: 'Welat', eyebrow: 'Li ser dinyayê', emoji: '🌍', price: 450, color: 'sky' },
   { id: 'cih', name: 'Cih', eyebrow: 'Em li ku ne?', emoji: '📍', price: 500, color: 'orange' },
-  { id: 'hemu', name: 'Hemû', eyebrow: 'Tevlihev', emoji: '🎲', price: 600, color: 'violet' },
+  { id: 'hemu', name: 'Hemû', eyebrow: 'Tevlihev', emoji: '🎲', price: 1000, color: 'violet' },
 ]
 
 export const questions: QuizQuestion[] = [
