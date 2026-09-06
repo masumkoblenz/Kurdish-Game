@@ -19,8 +19,8 @@ export type LearningTask = {
 
 export const mainAreas = [
   { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral' },
-  { id: 'tip' as const, name: 'Tîp', description: 'Alfabeya kurdî hîn bibe', emoji: '🔤', color: 'sun' },
-  { id: 'hejmar' as const, name: 'Hejmar', description: 'Ji sifir heta neh', emoji: '🔢', color: 'sky' },
+  { id: 'tip' as const, name: 'Tîp', description: 'Bi 15+ cureyên pirsan hîn bibe', emoji: '🔤', color: 'sun' },
+  { id: 'hejmar' as const, name: 'Hejmar', description: 'Bi 15+ cureyên pirsan bilîze', emoji: '🔢', color: 'sky' },
   { id: 'matematik' as const, name: 'Matematîk', description: 'Bi hejmaran bilîze', emoji: '➕', color: 'mint' },
   { id: 'emoji' as const, name: 'Emojî', description: 'Peyvê ji tîpan çêbike', emoji: '😀', color: 'violet' },
 ]
@@ -35,37 +35,37 @@ export const wordCategories = wordCategoryIds.map((id) => {
 export const kurdishAlphabet = ['A', 'B', 'C', 'Ç', 'D', 'E', 'Ê', 'F', 'G', 'H', 'I', 'Î', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'Ş', 'T', 'U', 'Û', 'V', 'W', 'X', 'Y', 'Z'] as const
 
 export const letterExamples: Record<(typeof kurdishAlphabet)[number], string[]> = {
-  A: ['Av', 'Agir', 'Aso'],
-  B: ['Bav', 'Baran', 'Berf'],
-  C: ['Cih', 'Ceger', 'Civat'],
-  Ç: ['Çav', 'Çiya', 'Çem'],
-  D: ['Dar', 'Derya', 'Dest'],
-  E: ['Ev', 'Ewr', 'Ezman'],
-  Ê: ['Êvar', 'Êş', 'Êzing'],
-  F: ['Fîl', 'Firîn', 'Fêkî'],
-  G: ['Gul', 'Guh', 'Giran'],
-  H: ['Hêvî', 'Hesp', 'Heval'],
-  I: ['Jin', 'Dil', 'Birinc'],
-  Î: ['Îro', 'Îşev', 'Îlon'],
-  J: ['Jin', 'Jiyan', 'Ji'],
-  K: ['Kitêb', 'Kûçik', 'Kurd'],
-  L: ['Lîstik', 'Lawik', 'Ling'],
-  M: ['Mal', 'Mezin', 'Mirîşk'],
-  N: ['Nan', 'Nav', 'Nû'],
-  O: ['Otomobîl', 'Ordek', 'Ode'],
-  P: ['Pisîk', 'Pênc', 'Pirtûk'],
-  Q: ['Qelem', 'Qapî', 'Qehwe'],
-  R: ['Roj', 'Rê', 'Reş'],
-  S: ['Sêv', 'Spî', 'Stêrk'],
-  Ş: ['Şev', 'Şêr', 'Şeş'],
-  T: ['Tav', 'Tişt', 'Tu'],
-  U: ['Gul', 'Kurd', 'Dur'],
-  Û: ['Kûçik', 'Mûz', 'Rû'],
-  V: ['Av', 'Heval', 'Nav'],
-  W: ['Welat', 'Wêne', 'Werzîş'],
-  X: ['Xwarin', 'Xewn', 'Xwe'],
-  Y: ['Yek', 'Yar', 'Yazdeh'],
-  Z: ['Ziman', 'Zer', 'Zozan'],
+  A: ['Av', 'Agir', 'Aso', 'Ajal', 'Armanc', 'Amed'],
+  B: ['Bav', 'Baran', 'Berf', 'Bihar', 'Bizin', 'Birayê'],
+  C: ['Cih', 'Ceger', 'Civat', 'Can', 'Cîran', 'Cûre'],
+  Ç: ['Çav', 'Çiya', 'Çem', 'Çar', 'Çilek', 'Çivîk'],
+  D: ['Dar', 'Derya', 'Dest', 'Dil', 'Derman', 'Dîwar'],
+  E: ['Ev', 'Ewr', 'Ezman', 'Em', 'Enî', 'Erzan'],
+  Ê: ['Êvar', 'Êş', 'Êzing', 'Êriş', 'Êzdî', 'Êl'],
+  F: ['Fîl', 'Firîn', 'Fêkî', 'Firax', 'Ferman', 'Fistan'],
+  G: ['Gul', 'Guh', 'Giran', 'Germ', 'Gund', 'Guhdar'],
+  H: ['Hêvî', 'Hesp', 'Heval', 'Hinar', 'Hêlîn', 'Hewa'],
+  I: ['Iraq', 'Isot', 'Ingîlîzî', 'Jin', 'Dil', 'Birinc'],
+  Î: ['Îro', 'Îşev', 'Îlon', 'Îcar', 'Îsal', 'Îstasyon'],
+  J: ['Jin', 'Jiyan', 'Ji', 'Jor', 'Jêr', 'Jîr'],
+  K: ['Kitêb', 'Kûçik', 'Kurd', 'Keç', 'Kulîlk', 'Kanî'],
+  L: ['Lîstik', 'Lawik', 'Ling', 'Lêv', 'Limon', 'Lorî'],
+  M: ['Mal', 'Mezin', 'Mirîşk', 'Mêş', 'Mûz', 'Mamoste'],
+  N: ['Nan', 'Nav', 'Nû', 'Nîvro', 'Nexweş', 'Nîşan'],
+  O: ['Otomobîl', 'Ordek', 'Ode', 'Oqyanûs', 'Otel', 'Oxir'],
+  P: ['Pisîk', 'Pênc', 'Pirtûk', 'Pel', 'Pencere', 'Piling'],
+  Q: ['Qelem', 'Qapî', 'Qehwe', 'Qeşmer', 'Quling', 'Qutî'],
+  R: ['Roj', 'Rê', 'Reş', 'Ronahî', 'Rûbar', 'Ristem'],
+  S: ['Sêv', 'Spî', 'Stêrk', 'Ser', 'Sînor', 'Sond'],
+  Ş: ['Şev', 'Şêr', 'Şeş', 'Şîr', 'Şemal', 'Şûşe'],
+  T: ['Tav', 'Tişt', 'Tu', 'Tîr', 'Tov', 'Tendurist'],
+  U: ['Ukrayna', 'Urfa', 'Umman', 'Usta', 'Universîte', 'Gul'],
+  Û: ['Û', 'Kûçik', 'Mûz', 'Rû', 'Dûr', 'Bûk'],
+  V: ['Vîn', 'Vala', 'Vejîn', 'Veger', 'Vêcar', 'Vir'],
+  W: ['Welat', 'Wêne', 'Werzîş', 'War', 'Winda', 'Wek'],
+  X: ['Xwarin', 'Xewn', 'Xwe', 'Xanî', 'Xwişk', 'Xezal'],
+  Y: ['Yek', 'Yar', 'Yazdeh', 'Yarmetî', 'Yekşem', 'Yanzdeh'],
+  Z: ['Ziman', 'Zer', 'Zozan', 'Zivistan', 'Zarok', 'Zevî'],
 }
 
 export const numberWords = ['sifir', 'yek', 'du', 'sê', 'çar', 'pênc', 'şeş', 'heft', 'heyşt', 'neh'] as const
@@ -99,6 +99,21 @@ function choiceOptions(answer: string, distractors: string[]) {
   return shuffle(unique([answer, ...shuffle(unique(distractors.filter((item) => item !== answer))).slice(0, 3)]))
 }
 
+function randomItem<T>(items: readonly T[]) {
+  return items[Math.floor(Math.random() * items.length)]
+}
+
+function countLetter(word: string, letter: string) {
+  return [...word.toUpperCase()].filter((character) => character === letter).length
+}
+
+function hideLetter(word: string, letter: string) {
+  const characters = [...word]
+  const index = characters.findIndex((character) => character.toUpperCase() === letter)
+  if (index >= 0) characters[index] = '_'
+  return characters.join('')
+}
+
 export function buildWordRound(categoryId: CategoryId): LearningTask[] {
   const pool = questions.filter((question) => question.category === categoryId)
   return fillRound(pool).map((question, index) => ({
@@ -115,58 +130,149 @@ export function buildWordRound(categoryId: CategoryId): LearningTask[] {
   }))
 }
 
-export function buildLetterRound(letter: (typeof kurdishAlphabet)[number]): LearningTask[] {
+export function buildLetterTaskPool(letter: (typeof kurdishAlphabet)[number]): LearningTask[] {
   const examples = letterExamples[letter]
   const otherLetters = kurdishAlphabet.filter((item) => item !== letter)
-  const wordsWithoutLetter = Object.values(letterExamples).flat().filter((word) => !word.toUpperCase().includes(letter))
-  const tasks: LearningTask[] = []
+  const lowercase = letter.toLowerCase()
+  const otherLowercase = otherLetters.map((item) => item.toLowerCase())
+  const allWords = unique(Object.values(letterExamples).flat())
+  const wordsWithoutLetter = allWords.filter((word) => !word.toUpperCase().includes(letter))
+  const startingWords = examples.filter((word) => word.toUpperCase().startsWith(letter))
+  const word = randomItem(examples)
+  const secondWord = randomItem(examples.filter((item) => item !== word))
+  const startingWord = randomItem(startingWords.length > 0 ? startingWords : examples)
+  const spellingWord = randomItem(examples.filter((item) => item.length > 2))
+  const absentWord = randomItem(wordsWithoutLetter)
+  const wordPair = `${word} · ${secondWord}`
+  const repeatedWord = `${word} · ${word}`
+  const repeatedCount = String(countLetter(word, letter) * 2)
+  const alphabetIndex = kurdishAlphabet.indexOf(letter)
+  const sequence = alphabetIndex === 0
+    ? `_ · ${kurdishAlphabet[1]} · ${kurdishAlphabet[2]}`
+    : alphabetIndex === kurdishAlphabet.length - 1
+      ? `${kurdishAlphabet[alphabetIndex - 2]} · ${kurdishAlphabet[alphabetIndex - 1]} · _`
+      : `${kurdishAlphabet[alphabetIndex - 1]} · _ · ${kurdishAlphabet[alphabetIndex + 1]}`
+  const vowel = randomItem(['a', 'e', 'ê', 'i', 'î', 'o', 'u', 'û'])
+  const syllable = `${letter}${vowel}`
+  const pair = `${letter} ${lowercase}`
+  const pairDistractors = otherLetters.map((item) => `${item} ${item.toLowerCase()}`)
+  const wrongPairs = wordsWithoutLetter.slice(0, 8).map((item, index) => `${item} · ${wordsWithoutLetter[index + 8] ?? absentWord}`)
+  const tasks: LearningTask[] = [
+    {
+      id: `tip-${letter}-uppercase`, kind: 'choice', area: 'tip', title: 'Tîpa mezin nas bike',
+      prompt: 'Tîpa mezin a rast hilbijêre.', display: letter, answer: letter, options: choiceOptions(letter, otherLetters),
+    },
+    {
+      id: `tip-${letter}-lowercase`, kind: 'choice', area: 'tip', title: 'Tîpa biçûk nas bike',
+      prompt: 'Tîpa biçûk a rast hilbijêre.', display: lowercase, answer: lowercase, options: choiceOptions(lowercase, otherLowercase),
+    },
+    {
+      id: `tip-${letter}-upper-match`, kind: 'choice', area: 'tip', title: 'Hevalê mezin bibîne',
+      prompt: `Kîjan tîpa mezin bi “${lowercase}” re hev e?`, display: lowercase, answer: letter, options: choiceOptions(letter, otherLetters),
+    },
+    {
+      id: `tip-${letter}-lower-match`, kind: 'choice', area: 'tip', title: 'Hevalê biçûk bibîne',
+      prompt: `Kîjan tîpa biçûk bi “${letter}” re hev e?`, display: letter, answer: lowercase, options: choiceOptions(lowercase, otherLowercase),
+    },
+    {
+      id: `tip-${letter}-pair`, kind: 'choice', area: 'tip', title: 'Cotê tîpan hilbijêre',
+      prompt: `Kîjan cot tîpa “${letter}” a mezin û biçûk nîşan dide?`, display: pair, answer: pair, options: choiceOptions(pair, pairDistractors),
+    },
+    {
+      id: `tip-${letter}-first`, kind: 'choice', area: 'tip', title: 'Tîpa destpêkê bibîne',
+      prompt: `Peyva “${startingWord}” bi kîjan tîpê dest pê dike?`, display: startingWord, answer: letter, options: choiceOptions(letter, otherLetters),
+    },
+    {
+      id: `tip-${letter}-missing-first`, kind: 'choice', area: 'tip', title: 'Destpêkê temam bike',
+      prompt: 'Tîpa kêm li destpêka peyvê hilbijêre.', display: `_${[...startingWord].slice(1).join('')}`, answer: letter, options: choiceOptions(letter, otherLetters),
+    },
+    {
+      id: `tip-${letter}-missing-word`, kind: 'choice', area: 'tip', title: 'Peyvê temam bike',
+      prompt: `Di peyva “${word}” de kîjan tîp kêm e?`, display: hideLetter(word, letter), answer: letter, options: choiceOptions(letter, otherLetters),
+    },
+    {
+      id: `tip-${letter}-contains`, kind: 'choice', area: 'tip', title: 'Tîpê di peyvê de bibîne',
+      prompt: `Kîjan peyv tîpa “${letter}” dihewîne?`, display: letter, answer: word, options: choiceOptions(word, wordsWithoutLetter),
+    },
+    {
+      id: `tip-${letter}-absent`, kind: 'choice', area: 'tip', title: 'Peyva cuda bibîne',
+      prompt: `Kîjan peyv tîpa “${letter}” nagire?`, display: letter, answer: absentWord, options: choiceOptions(absentWord, examples),
+    },
+    {
+      id: `tip-${letter}-count`, kind: 'choice', area: 'tip', title: 'Tîpan bijmêre',
+      prompt: `Di van peyvan de çend tîpên “${letter}” hene?`, display: repeatedWord, answer: repeatedCount, options: choiceOptions(repeatedCount, ['0', '1', '2', '3', '4', '5', '6']),
+    },
+    {
+      id: `tip-${letter}-position`, kind: 'choice', area: 'tip', title: 'Cihê tîpê bibîne',
+      prompt: `Tîpa “${letter}” li ku derê ye?`, display: startingWord, answer: 'Destpêk', options: shuffle(['Destpêk', 'Nav', 'Dawî']),
+    },
+    {
+      id: `tip-${letter}-spell`, kind: 'spelling', area: 'tip', title: 'Peyvê ji tîpan çêbike',
+      prompt: `Peyva “${spellingWord}” ji nû ve çêbike.`, display: spellingWord, answer: spellingWord, options: shuffle([...spellingWord]),
+    },
+    {
+      id: `tip-${letter}-alphabet`, kind: 'choice', area: 'tip', title: 'Rêza alfabeyê temam bike',
+      prompt: 'Tîpa kêm di rêza alfabeyê de hilbijêre.', display: sequence, answer: letter, options: choiceOptions(letter, otherLetters),
+    },
+    {
+      id: `tip-${letter}-syllable`, kind: 'choice', area: 'tip', title: 'Kîteya rast bibîne',
+      prompt: `Kîjan kîte bi tîpa “${letter}” dest pê dike?`, display: letter, answer: syllable, options: choiceOptions(syllable, otherLetters.map((item) => `${item}${vowel}`)),
+    },
+    {
+      id: `tip-${letter}-pair-words`, kind: 'choice', area: 'tip', title: 'Du peyvan berhev bike',
+      prompt: `Di kîjan cotê de her du peyv tîpa “${letter}” digirin?`, display: wordPair, answer: wordPair, options: choiceOptions(wordPair, wrongPairs),
+    },
+    {
+      id: `tip-${letter}-word-letter`, kind: 'choice', area: 'tip', title: 'Tîpa nav peyvê hilbijêre',
+      prompt: `Kîjan tîp di peyva “${word}” de heye?`, display: word, answer: letter, options: choiceOptions(letter, otherLetters.filter((item) => !word.toUpperCase().includes(item))),
+    },
+    {
+      id: `tip-${letter}-same-start`, kind: 'choice', area: 'tip', title: 'Peyvên heman destpêkê',
+      prompt: `Kîjan peyv bi tîpa “${letter}” dest pê dike?`, display: letter, answer: startingWord, options: choiceOptions(startingWord, wordsWithoutLetter),
+    },
+  ]
 
-  examples.forEach((word, index) => {
-    const upperWord = word.toUpperCase()
-    const letterIndex = upperWord.indexOf(letter)
-    const missingWord = letterIndex >= 0 ? `${word.slice(0, letterIndex)}_${word.slice(letterIndex + 1)}` : `_${word}`
-    tasks.push(
-      {
-        id: `tip-${letter}-nas-${index}`,
-        kind: 'choice',
-        area: 'tip',
-        title: 'Tîpê nas bike',
-        prompt: 'Tîpa ku tu dibînî hilbijêre.',
-        display: letter,
-        answer: letter,
-        options: choiceOptions(letter, otherLetters),
-      },
-      {
-        id: `tip-${letter}-kêm-${index}`,
-        kind: 'choice',
-        area: 'tip',
-        title: 'Tîpa kêm bibîne',
-        prompt: `Kîjan tîp di peyva “${word}” de kêm e?`,
-        display: missingWord,
-        answer: letter,
-        options: choiceOptions(letter, otherLetters),
-      },
-      {
-        id: `tip-${letter}-peyiv-${index}`,
-        kind: 'choice',
-        area: 'tip',
-        title: 'Peyvê bibîne',
-        prompt: `Kîjan peyv tîpa “${letter}” dihewîne?`,
-        display: letter,
-        answer: word,
-        options: choiceOptions(word, wordsWithoutLetter),
-      },
-    )
-  })
-
-  return fillRound(tasks)
+  return tasks
 }
 
-export function buildNumberRound(number: number): LearningTask[] {
+export function buildLetterRound(letter: (typeof kurdishAlphabet)[number]): LearningTask[] {
+  return fillRound(buildLetterTaskPool(letter))
+}
+
+export function buildNumberTaskPool(number: number): LearningTask[] {
   const word = numberWords[number]
   const otherNumbers = numberWords.map((_, index) => String(index)).filter((item) => item !== String(number))
   const otherWords = numberWords.filter((item) => item !== word)
   const sequence = number === 0 ? `_ · 1 · 2` : number === 9 ? `7 · 8 · _` : `${number - 1} · _ · ${number + 1}`
+  const reverseSequence = number === 0 ? `2 · 1 · _` : number === 9 ? `_ · 8 · 7` : `${number + 1} · _ · ${number - 1}`
+  const previousPromptNumber = number + 1
+  const nextPromptNumber = number === 0 ? 0 : number - 1
+  const nextAnswer = number === 0 ? '1' : String(number)
+  const dots = number === 0 ? '—' : Array.from({ length: number }, () => '●').join(' ')
+  const parity = number % 2 === 0 ? 'Cot' : 'Take'
+  const wordLength = String([...word].length)
+  const addLeft = Math.floor(Math.random() * (number + 1))
+  const addRight = number - addLeft
+  const subtractRight = 1 + Math.floor(Math.random() * 5)
+  const complement = String(10 - number)
+  const matchingPair = `${number} — ${word}`
+  const pairDistractors = numberWords.map((_, index) => `${index} — ${numberWords[(index + 1) % numberWords.length]}`)
+  const comparisonNumber = Number(randomItem(otherNumbers))
+  const ascendingPair = [number, comparisonNumber].sort((left, right) => left - right).join(' < ')
+  const descendingPair = [number, comparisonNumber].sort((left, right) => right - left).join(' > ')
+  const comparisonDistractors = unique([
+    `${number} > ${comparisonNumber}`,
+    `${number} < ${comparisonNumber}`,
+    `${comparisonNumber} > ${number}`,
+    `${comparisonNumber} < ${number}`,
+    `${number} = ${comparisonNumber}`,
+    `${comparisonNumber} = ${number}`,
+  ])
+  const mixedSequence = number === 0
+    ? `_ · 2 · 4`
+    : number === 9
+      ? `7 · 8 · _`
+      : `${number - 1} · _ · ${number + 1}`
   const tasks: LearningTask[] = [
     {
       id: `hejmar-${number}-nas`, kind: 'choice', area: 'hejmar', title: 'Hejmarê nas bike',
@@ -184,8 +290,72 @@ export function buildNumberRound(number: number): LearningTask[] {
       id: `hejmar-${number}-dor`, kind: 'choice', area: 'hejmar', title: 'Rêzê temam bike',
       prompt: 'Hejmarê kêm hilbijêre.', display: sequence, answer: String(number), options: choiceOptions(String(number), otherNumbers),
     },
+    {
+      id: `hejmar-${number}-reverse`, kind: 'choice', area: 'hejmar', title: 'Paşde bijmêre',
+      prompt: 'Rêza paşde temam bike.', display: reverseSequence, answer: String(number), options: choiceOptions(String(number), otherNumbers),
+    },
+    {
+      id: `hejmar-${number}-before`, kind: 'choice', area: 'hejmar', title: 'Hejmarê berî wê bibîne',
+      prompt: `Kîjan hejmar berî ${previousPromptNumber} tê?`, display: `… · _ · ${previousPromptNumber}`, answer: String(number), options: choiceOptions(String(number), otherNumbers),
+    },
+    {
+      id: `hejmar-${number}-after`, kind: 'choice', area: 'hejmar', title: 'Hejmarê piştî wê bibîne',
+      prompt: `Kîjan hejmar piştî ${nextPromptNumber} tê?`, display: `${nextPromptNumber} · _ · …`, answer: nextAnswer, options: choiceOptions(nextAnswer, numberWords.map((_, index) => String(index))),
+    },
+    {
+      id: `hejmar-${number}-count`, kind: 'choice', area: 'hejmar', title: 'Nîşanan bijmêre',
+      prompt: 'Li vir çend xalên tijî hene?', display: dots, answer: String(number), options: choiceOptions(String(number), otherNumbers),
+    },
+    {
+      id: `hejmar-${number}-pair`, kind: 'choice', area: 'hejmar', title: 'Hejmar û navê wê',
+      prompt: 'Kîjan cot rast e?', display: matchingPair, answer: matchingPair, options: choiceOptions(matchingPair, pairDistractors),
+    },
+    {
+      id: `hejmar-${number}-parity`, kind: 'choice', area: 'hejmar', title: 'Cot an take?',
+      prompt: `Hejmar ${number} cot e an take?`, display: String(number), answer: parity, options: shuffle(['Cot', 'Take']),
+    },
+    {
+      id: `hejmar-${number}-letters`, kind: 'choice', area: 'hejmar', title: 'Tîpên navê hejmarê',
+      prompt: `Di peyva “${word}” de çend tîp hene?`, display: word, answer: wordLength, options: choiceOptions(wordLength, ['1', '2', '3', '4', '5', '6', '7']),
+    },
+    {
+      id: `hejmar-${number}-spell`, kind: 'spelling', area: 'hejmar', title: 'Navê hejmarê çêbike',
+      prompt: `Navê hejmar ${number} ji tîpan çêbike.`, display: String(number), answer: word, options: shuffle([...word]),
+    },
+    {
+      id: `hejmar-${number}-addition`, kind: 'choice', area: 'hejmar', title: 'Komkirina biçûk',
+      prompt: 'Encama vê komkirinê çi ye?', display: `${addLeft} + ${addRight}`, answer: String(number), options: choiceOptions(String(number), otherNumbers),
+    },
+    {
+      id: `hejmar-${number}-subtraction`, kind: 'choice', area: 'hejmar', title: 'Kêmkirina biçûk',
+      prompt: 'Encama vê kêmkirinê çi ye?', display: `${number + subtractRight} − ${subtractRight}`, answer: String(number), options: choiceOptions(String(number), otherNumbers),
+    },
+    {
+      id: `hejmar-${number}-complement`, kind: 'choice', area: 'hejmar', title: 'Bigihîje dehê',
+      prompt: `Ji ${number} heta 10 çend kêm e?`, display: `${number} + _ = 10`, answer: complement, options: choiceOptions(complement, numberWords.map((_, index) => String(index))),
+    },
+    {
+      id: `hejmar-${number}-ascending`, kind: 'choice', area: 'hejmar', title: 'Ji biçûk ber bi mezin',
+      prompt: 'Kîjan rêz ji biçûk ber bi mezin rast e?', display: `${number} · ${comparisonNumber}`, answer: ascendingPair, options: choiceOptions(ascendingPair, comparisonDistractors),
+    },
+    {
+      id: `hejmar-${number}-descending`, kind: 'choice', area: 'hejmar', title: 'Ji mezin ber bi biçûk',
+      prompt: 'Kîjan rêz ji mezin ber bi biçûk rast e?', display: `${number} · ${comparisonNumber}`, answer: descendingPair, options: choiceOptions(descendingPair, comparisonDistractors),
+    },
+    {
+      id: `hejmar-${number}-word-choice`, kind: 'choice', area: 'hejmar', title: 'Peyva rast ji navê derxe',
+      prompt: `Kîjan peyv navê hejmar ${number} e?`, display: `${word} · ${randomItem(otherWords)} · ${randomItem(otherWords)}`, answer: word, options: choiceOptions(word, [...otherWords]),
+    },
+    {
+      id: `hejmar-${number}-mixed-sequence`, kind: 'choice', area: 'hejmar', title: 'Cihê vala dagire',
+      prompt: 'Hejmarê rast ji bo cihê vala hilbijêre.', display: mixedSequence, answer: String(number), options: choiceOptions(String(number), otherNumbers),
+    },
   ]
-  return fillRound(tasks)
+  return tasks
+}
+
+export function buildNumberRound(number: number): LearningTask[] {
+  return fillRound(buildNumberTaskPool(number))
 }
 
 function mathValues(operation: MathOperation, level: number) {
