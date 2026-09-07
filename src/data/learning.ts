@@ -23,18 +23,15 @@ export type LearningTask = {
   emoji?: string
   sourceQuestion?: QuizQuestion
 }
-
 export const mainAreas = [
-  { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral', price: 50 },
-  { id: 'hevok' as const, name: 'Hevok', description: 'Peyvan bi rêza rast rêz bike', emoji: '💬', color: 'plum', price: 100 },
   { id: 'tip' as const, name: 'Tîp', description: 'Bi 15+ cureyên pirsan hîn bibe', emoji: '🔤', color: 'sun', price: 0 },
   { id: 'hejmar' as const, name: 'Hejmar', description: 'Bi 15+ cureyên pirsan bilîze', emoji: '🔢', color: 'sky', price: 150 },
   { id: 'rojen-hefteye' as const, name: 'Rojên hefteyê', description: 'Nav û rêza heft rojan hîn bibe', emoji: '📅', color: 'rose', price: 200 },
   { id: 'meh' as const, name: 'Meh', description: 'Nav û rêza diwanzdeh mehan hîn bibe', emoji: '🗓️', color: 'indigo', price: 250 },
-  { id: 'matematik' as const, name: 'Matematîk', description: 'Bi hejmaran bilîze', emoji: '➕', color: 'mint', price: 300 },
+  { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral', price: 300 },
   { id: 'emoji' as const, name: 'Emojî', description: 'Peyvê ji tîpan çêbike', emoji: '😀', color: 'violet', price: 350 },
+  { id: 'hevok' as const, name: 'Hevok', description: 'Peyvan bi rêza rast rêz bike', emoji: '💬', color: 'plum', price: 400 },
 ]
-
 export const wordCategoryIds: CategoryId[] = ['xwarin', 'ajalan', 'wesayit', 'tist', 'xweza', 'reng', 'werzis', 'pise', 'welat', 'cih', 'dem']
 
 export const wordCategories = wordCategoryIds.map((id) => {
