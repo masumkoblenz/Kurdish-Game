@@ -34,6 +34,8 @@ import {
   buildSentenceRound,
   buildWeekDayRound,
   buildWordRound,
+  getLetterPrice,
+  getNumberPrice,
   kurdishAlphabet,
   letterExamples,
   mainAreas,
@@ -66,6 +68,9 @@ type RoundStats = { score: number; correct: number; wrong: number; earnedCoins: 
 
 const emptyStats: RoundStats = { score: 0, correct: 0, wrong: 0, earnedCoins: 0, earnedXp: 0, bestCombo: 0, fastestMark: 0 }
 const roundSeconds = (area: MainAreaId) => area === 'hevok' ? 45 : 30
+const lessonKey = (area: MainAreaId, id: string) => `${area}:${id}`
+const isAreaUnlocked = (player: PlayerData, area: MainAreaId) => player.unlockedAreas.includes(area)
+const isLessonUnlocked = (player: PlayerData, area: MainAreaId, id: string) => player.unlockedLessons.includes(lessonKey(area, id))
 
 function getTasks(selection: RoundSelection, level: number) {
   if (selection.area === 'peyiv') return buildWordRound(selection.id as CategoryId)
@@ -230,13 +235,6 @@ export default function KurdishQuiz() {
       setToast('Di vê beşê de hîn pirs tune.')
       return
     }
-    if (nextSelection.area === 'peyiv' && !player.unlockedCategories.includes(nextSelection.id as CategoryId)) {
-      const expanded = { ...player, unlockedCategories: [...player.unlockedCategories, nextSelection.id as CategoryId] }
-      const checked = unlockAchievements(expanded)
-      savePlayer(checked.player)
-      setPlayer(checked.player)
-      setAchievementPopup(checked.newlyUnlocked)
-    }
     setSelection(nextSelection)
     setRound(tasks)
     setQuestionIndex(0)
@@ -258,12 +256,51 @@ export default function KurdishQuiz() {
   }
 
   const openArea = (area: MainAreaId) => {
+    if (!player) return
+    const areaInfo = mainAreas.find((item) => item.id === area)!
+    if (!isAreaUnlocked(player, area)) {
+      if (player.coins < areaInfo.price) {
+        setToast(`Ji bo vekirina ${areaInfo.name} zêrê te têr nake.`)
+        return
+      }
+      const updatedPlayer = { ...player, coins: player.coins - areaInfo.price, unlockedAreas: [...player.unlockedAreas, area] }
+      savePlayer(updatedPlayer)
+      setPlayer(updatedPlayer)
+      setToast(`${areaInfo.name} hat vekirin!`)
+    }
     if (area === 'emoji' || area === 'hevok') {
       startGame({ area, id: area, title: area === 'hevok' ? 'Hevok' : 'Emojî' })
       return
     }
     setActiveArea(area)
     setView('area')
+  }
+
+  const openLesson = (nextSelection: RoundSelection, price: number) => {
+    if (!player) return
+    if (isLessonUnlocked(player, nextSelection.area, nextSelection.id)) {
+      startGame(nextSelection)
+      return
+    }
+    if (player.coins < price) {
+      setToast(`Ji bo vekirina ${nextSelection.title} zêrê te têr nake.`)
+      return
+    }
+    const categoryId = nextSelection.id as CategoryId
+    const expanded: PlayerData = {
+      ...player,
+      coins: player.coins - price,
+      unlockedLessons: [...player.unlockedLessons, lessonKey(nextSelection.area, nextSelection.id)],
+      unlockedCategories: nextSelection.area === 'peyiv' && !player.unlockedCategories.includes(categoryId)
+        ? [...player.unlockedCategories, categoryId]
+        : player.unlockedCategories,
+    }
+    const checked = unlockAchievements(expanded)
+    savePlayer(checked.player)
+    setPlayer(checked.player)
+    setAchievementPopup(checked.newlyUnlocked)
+    setToast(`${nextSelection.title} hat vekirin!`)
+    startGame(nextSelection)
   }
 
   const useFiftyFifty = () => {
@@ -363,7 +400,7 @@ export default function KurdishQuiz() {
       <div className="ambient ambient-two" />
       {view === 'welcome' && <WelcomeView onStart={() => setView('home')} />}
       {view === 'home' && <HomeView player={player} onOpenArea={openArea} onNavigate={setView} />}
-      {view === 'area' && <AreaView area={activeArea} onBack={() => setView('home')} onStart={startGame} />}
+      {view === 'area' && <AreaView area={activeArea} player={player} onBack={() => setView('home')} onStart={openLesson} />}
       {view === 'quiz' && currentQuestion && (
         <QuizView
           player={player}
@@ -469,30 +506,36 @@ function HomeView({ player, onOpenArea, onNavigate }: { player: PlayerData; onOp
 
       <div className="section-heading"><div><p className="overline">Cîhana fêrbûnê</p><h2>Tu îro dixwazî çi fêr bibî?</h2></div><button onClick={() => onNavigate('saved-words')}><LibraryBig size={18} /> Peyvên min</button></div>
       <section className="main-area-grid">
-        {mainAreas.map((area, index) => (
-          <button className={`main-area-card ${area.color}`} key={area.id} onClick={() => onOpenArea(area.id)} style={{ '--delay': `${index * 70}ms` } as CSSProperties}>
-            <span className="area-number">0{index + 1}</span><span className="area-emoji">{area.emoji}</span><span><strong>{area.name}</strong><small>{area.description}</small></span><ChevronRight size={22} />
+        {mainAreas.map((area, index) => {
+          const unlocked = isAreaUnlocked(player, area.id)
+          return <button className={`main-area-card ${area.color} ${unlocked ? 'unlocked' : 'locked'}`} key={area.id} onClick={() => onOpenArea(area.id)} style={{ '--delay': `${index * 70}ms` } as CSSProperties}>
+            <span className="area-number">0{index + 1}</span><span className="area-emoji">{area.emoji}</span><span><strong>{area.name}</strong><small>{area.description}</small></span><AccessBadge unlocked={unlocked} price={area.price} /><ChevronRight size={22} />
           </button>
-        ))}
+        })}
       </section>
       <MobileNav view="home" onNavigate={onNavigate} />
     </div>
   )
 }
 
-function AreaView({ area, onBack, onStart }: { area: MainAreaId; onBack: () => void; onStart: (selection: RoundSelection) => void }) {
+function AccessBadge({ unlocked, price }: { unlocked: boolean; price: number }) {
+  if (unlocked) return <div className="access-badge unlocked"><CheckCircle2 size={15} /> {price === 0 ? 'Belaş' : 'Vekirî'}</div>
+  return <div className="access-badge locked"><LockKeyhole size={14} /><Coins size={14} /> {price}</div>
+}
+
+function AreaView({ area, player, onBack, onStart }: { area: MainAreaId; player: PlayerData; onBack: () => void; onStart: (selection: RoundSelection, price: number) => void }) {
   const areaInfo = mainAreas.find((item) => item.id === area)!
   return (
     <div className="page inner-page area-page">
       <PageHeader title={areaInfo.name} subtitle={areaInfo.description} onBack={onBack} />
       <section className={`area-banner ${areaInfo.color}`}><span>{areaInfo.emoji}</span><div><p className="overline">Beşek hilbijêre</p><h2>{areaInfo.name}</h2><p>Her ger ji deh pirsên cuda pêk tê.</p></div></section>
 
-      {area === 'peyiv' && <div className="subcategory-grid word-subcategories">{wordCategories.map((category, index) => <button key={category.id} onClick={() => onStart({ area, id: category.id, title: category.name })} style={{ '--delay': `${index * 40}ms` } as CSSProperties}><span>{category.emoji}</span><strong>{category.name}</strong><small>{questions.filter((question) => question.category === category.id).length} peyv</small><ChevronRight size={18} /></button>)}</div>}
-      {area === 'tip' && <div className="letter-grid">{kurdishAlphabet.map((letter, index) => <button key={letter} onClick={() => onStart({ area, id: letter, title: `Tîpa ${letter}` })} style={{ '--delay': `${index * 22}ms` } as CSSProperties}><strong>{letter}</strong><small>{letterExamples[letter].slice(0, 2).join(' · ')}</small></button>)}</div>}
-      {area === 'hejmar' && <div className="number-grid">{numberWords.map((word, number) => <button key={number} onClick={() => onStart({ area, id: String(number), title: `Hejmar ${number}` })}><strong>{number}</strong><span>{word}</span></button>)}</div>}
-      {area === 'rojen-hefteye' && <div className="subcategory-grid calendar-subcategories">{weekDays.map((day, index) => <button key={day.id} onClick={() => onStart({ area, id: day.id, title: day.name })} style={{ '--delay': `${index * 45}ms` } as CSSProperties}><span>{day.emoji}</span><strong>{day.name}</strong><small>15 cureyên pirsan</small><ChevronRight size={18} /></button>)}</div>}
-      {area === 'meh' && <div className="subcategory-grid calendar-subcategories">{months.map((month, index) => <button key={month.id} onClick={() => onStart({ area, id: month.id, title: month.name })} style={{ '--delay': `${index * 35}ms` } as CSSProperties}><span>{month.emoji}</span><strong>{month.name}</strong><small>15 cureyên pirsan</small><ChevronRight size={18} /></button>)}</div>}
-      {area === 'matematik' && <div className="subcategory-grid math-subcategories">{mathOperations.map((operation, index) => <button key={operation.id} onClick={() => onStart({ area, id: operation.id, title: operation.name })} style={{ '--delay': `${index * 60}ms` } as CSSProperties}><span>{operation.emoji}</span><strong>{operation.name}</strong><small>{operation.description}</small><ChevronRight size={18} /></button>)}</div>}
+      {area === 'peyiv' && <div className="subcategory-grid word-subcategories">{wordCategories.map((category, index) => { const unlocked = isLessonUnlocked(player, area, category.id); return <button className={unlocked ? 'unlocked' : 'locked'} key={category.id} onClick={() => onStart({ area, id: category.id, title: category.name }, category.price)} style={{ '--delay': `${index * 40}ms` } as CSSProperties}><span>{category.emoji}</span><strong>{category.name}</strong><small>{questions.filter((question) => question.category === category.id).length} peyv</small><AccessBadge unlocked={unlocked} price={category.price} /><ChevronRight size={18} /></button> })}</div>}
+      {area === 'tip' && <div className="letter-grid">{kurdishAlphabet.map((letter, index) => { const price = getLetterPrice(letter); const unlocked = isLessonUnlocked(player, area, letter); return <button className={unlocked ? 'unlocked' : 'locked'} key={letter} onClick={() => onStart({ area, id: letter, title: `Tîpa ${letter}` }, price)} style={{ '--delay': `${index * 22}ms` } as CSSProperties}><strong>{letter}</strong><small>{letterExamples[letter].slice(0, 2).join(' · ')}</small><AccessBadge unlocked={unlocked} price={price} /></button> })}</div>}
+      {area === 'hejmar' && <div className="number-grid">{numberWords.map((word, number) => { const price = getNumberPrice(number); const unlocked = isLessonUnlocked(player, area, String(number)); return <button className={unlocked ? 'unlocked' : 'locked'} key={number} onClick={() => onStart({ area, id: String(number), title: `Hejmar ${number}` }, price)}><strong>{number}</strong><span>{word}</span><AccessBadge unlocked={unlocked} price={price} /></button> })}</div>}
+      {area === 'rojen-hefteye' && <div className="subcategory-grid calendar-subcategories">{weekDays.map((day, index) => { const unlocked = isLessonUnlocked(player, area, day.id); return <button className={unlocked ? 'unlocked' : 'locked'} key={day.id} onClick={() => onStart({ area, id: day.id, title: day.name }, day.price)} style={{ '--delay': `${index * 45}ms` } as CSSProperties}><span>{day.emoji}</span><strong>{day.name}</strong><small>15 cureyên pirsan</small><AccessBadge unlocked={unlocked} price={day.price} /><ChevronRight size={18} /></button> })}</div>}
+      {area === 'meh' && <div className="subcategory-grid calendar-subcategories">{months.map((month, index) => { const unlocked = isLessonUnlocked(player, area, month.id); return <button className={unlocked ? 'unlocked' : 'locked'} key={month.id} onClick={() => onStart({ area, id: month.id, title: month.name }, month.price)} style={{ '--delay': `${index * 35}ms` } as CSSProperties}><span>{month.emoji}</span><strong>{month.name}</strong><small>15 cureyên pirsan</small><AccessBadge unlocked={unlocked} price={month.price} /><ChevronRight size={18} /></button> })}</div>}
+      {area === 'matematik' && <div className="subcategory-grid math-subcategories">{mathOperations.map((operation, index) => { const unlocked = isLessonUnlocked(player, area, operation.id); return <button className={unlocked ? 'unlocked' : 'locked'} key={operation.id} onClick={() => onStart({ area, id: operation.id, title: operation.name }, operation.price)} style={{ '--delay': `${index * 60}ms` } as CSSProperties}><span>{operation.emoji}</span><strong>{operation.name}</strong><small>{operation.description}</small><AccessBadge unlocked={unlocked} price={operation.price} /><ChevronRight size={18} /></button> })}</div>}
     </div>
   )
 }
