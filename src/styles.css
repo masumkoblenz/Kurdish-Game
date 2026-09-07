@@ -70,7 +70,7 @@ button:disabled { cursor: not-allowed; }
 .main-area-card:first-child > span:nth-child(3) { align-self: end; }
 .main-area-card:hover { transform: translateY(-4px) rotate(-.25deg); box-shadow: 0 20px 42px rgba(52,43,33,.11); }
 .main-area-card::after { content: ""; position: absolute; right: -44px; bottom: -62px; width: 150px; height: 150px; border: 22px solid color-mix(in srgb, var(--accent) 15%, transparent); border-radius: 50%; }
-.main-area-card.coral { --accent: #d85c4a; }.main-area-card.sun { --accent: #d59b2c; }.main-area-card.sky { --accent: #4c77a8; }.main-area-card.rose { --accent: #b65369; }.main-area-card.indigo { --accent: #535f91; }.main-area-card.mint { --accent: #328a70; }.main-area-card.violet { --accent: #66558f; }
+.main-area-card.coral { --accent: #d85c4a; }.main-area-card.plum { --accent: #8a506f; }.main-area-card.sun { --accent: #d59b2c; }.main-area-card.sky { --accent: #4c77a8; }.main-area-card.rose { --accent: #b65369; }.main-area-card.indigo { --accent: #535f91; }.main-area-card.mint { --accent: #328a70; }.main-area-card.violet { --accent: #66558f; }
 .area-number { align-self: start; color: var(--accent); font-size: .7rem; font-weight: 900; letter-spacing: .13em; }
 .area-emoji { position: relative; z-index: 1; font-size: 2.75rem; }
 .main-area-card strong, .main-area-card small { display: block; }
@@ -100,7 +100,7 @@ button:disabled { cursor: not-allowed; }
 .page-header h1 { font: 900 2.15rem Georgia, serif; }
 .icon-button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--line); border-radius: 15px; color: var(--ink); background: var(--paper); }
 .area-banner { --accent: var(--red); display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 25px; margin-bottom: 24px; padding: 28px 34px; border-radius: 32px 32px 32px 9px; color: #fff; background: var(--accent); overflow: hidden; }
-.area-banner.coral { --accent: #c95746; }.area-banner.sun { --accent: #b98524; }.area-banner.sky { --accent: #416b9a; }.area-banner.rose { --accent: #a84e63; }.area-banner.indigo { --accent: #4b5686; }.area-banner.mint { --accent: #2e7c66; }
+.area-banner.coral { --accent: #c95746; }.area-banner.plum { --accent: #78435f; }.area-banner.sun { --accent: #b98524; }.area-banner.sky { --accent: #416b9a; }.area-banner.rose { --accent: #a84e63; }.area-banner.indigo { --accent: #4b5686; }.area-banner.mint { --accent: #2e7c66; }
 .area-banner > span { font-size: 5rem; filter: drop-shadow(0 8px 10px rgba(0,0,0,.12)); }
 .area-banner .overline { color: rgba(255,255,255,.7); }
 .area-banner h2 { margin: 0 0 7px; font: 900 2.6rem Georgia, serif; }
@@ -125,6 +125,7 @@ button:disabled { cursor: not-allowed; }
 .question-kicker { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; color: var(--red); font-size: .73rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }.question-kicker button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 13px; color: var(--muted); background: var(--cream); }.question-kicker button.saved { color: var(--red); }
 .question-prompt { margin: 5px auto 18px; color: var(--muted); line-height: 1.5; }
 .task-display { display: grid; place-items: center; min-height: 138px; margin: 0 auto 25px; color: var(--ink); font: 900 clamp(3rem, 10vw, 6.8rem)/1 Georgia, serif; letter-spacing: -.04em; }.task-display.emoji-display { font-family: inherit; font-size: clamp(5rem, 15vw, 8rem); }
+.task-display.sentence-clue { min-height: auto; width: fit-content; margin-bottom: 18px; padding: 8px 15px; border: 1px solid #dbc7d2; border-radius: 999px; color: #78435f; background: #f7edf2; font: 900 .76rem/1.2 "Trebuchet MS", sans-serif; letter-spacing: .12em; text-transform: uppercase; }
 .task-artwork { display: grid; place-items: center; width: 180px; height: 180px; margin: 0 auto 25px; overflow: hidden; border: 1px solid var(--line); border-radius: 38px 38px 38px 11px; background: var(--cream); }.task-artwork img { width: 100%; height: 100%; object-fit: contain; padding: 12px; }.task-artwork span { font-size: 6.2rem; }
 .answer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .answer-button { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 11px; min-height: 64px; padding: 10px 15px; border: 2px solid var(--line); border-radius: 17px 17px 17px 6px; color: var(--ink); background: #fff; text-align: left; font-weight: 900; transition: transform .15s, border-color .15s, background .15s; }.answer-button:hover:not(:disabled) { transform: translateY(-2px); border-color: #b9a998; }.answer-button > span { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 9px; color: var(--muted); background: var(--cream); font-size: .72rem; }.answer-button.correct { color: #1f6f59; border-color: #72b7a4; background: #e9f7f1; }.answer-button.wrong { color: #a63f36; border-color: #dc8a80; background: #fff0ed; }.answer-button.hidden { visibility: hidden; }
@@ -132,6 +133,15 @@ button:disabled { cursor: not-allowed; }
 .spelling-answer { display: flex; justify-content: center; flex-wrap: wrap; gap: 7px; min-height: 58px; margin-bottom: 22px; }.spelling-answer span { display: grid; place-items: center; width: 42px; height: 50px; border-bottom: 4px solid #c6b9a9; font: 900 1.6rem Georgia, serif; transition: border-color .16s, background .16s, transform .16s; }.spelling-answer span.next-letter { border-color: var(--gold); border-radius: 10px 10px 3px 3px; background: #fff5d9; transform: translateY(-2px); }
 .letter-bank { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }.letter-bank button { min-width: 48px; height: 52px; padding: 0 13px; border: 0; border-radius: 14px 14px 14px 5px; color: #fff; background: var(--violet); box-shadow: 0 5px 0 #493d6a; font: 900 1.25rem Georgia, serif; transition: transform .14s, box-shadow .14s, background .14s; }.letter-bank button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 7px 0 #493d6a; }.letter-bank button:disabled { opacity: .15; transform: translateY(4px); box-shadow: 0 1px 0 #493d6a; }.letter-bank button.wrong-letter { background: var(--red); box-shadow: 0 5px 0 var(--red-dark); animation: wrong-letter .38s ease-in-out; }
 .spelling-actions { display: grid; grid-template-columns: 1fr 1.4fr; gap: 9px; max-width: 470px; margin: 0 auto; }.spelling-actions.single-action { grid-template-columns: minmax(180px, 280px); justify-content: center; }.skip-button { color: var(--violet); border-color: #cfc5e2; background: #f5f0ff; }
+.sentence-game { width: min(100%, 720px); margin: 0 auto; }
+.sentence-answer { display: flex; align-content: center; justify-content: center; flex-wrap: wrap; gap: 8px; min-height: 102px; margin-bottom: 18px; padding: 19px; border: 2px dashed #cdb7c3; border-radius: 24px 24px 24px 8px; background: linear-gradient(135deg, #fffafc, #f8edf3); }
+.sentence-answer > span:not(.sentence-placeholder) { display: inline-flex; align-items: center; min-height: 42px; padding: 7px 12px; border-radius: 12px 12px 12px 4px; color: #fff; background: #78435f; box-shadow: 0 4px 0 #5e3149; font-weight: 900; }
+.sentence-placeholder { align-self: center; color: #927e89; font-weight: 800; }
+.sentence-bank { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; margin-bottom: 20px; }
+.sentence-bank button { min-height: 48px; padding: 8px 15px; border: 1px solid #d9cad1; border-radius: 14px 14px 14px 5px; color: var(--ink); background: var(--paper); box-shadow: 0 5px 0 #ded0d6; font-weight: 900; transition: transform .14s, box-shadow .14s, opacity .14s; }
+.sentence-bank button:hover:not(:disabled) { transform: translateY(-2px) rotate(-.5deg); box-shadow: 0 7px 0 #ded0d6; }
+.sentence-bank button:disabled { opacity: .12; transform: translateY(4px); box-shadow: 0 1px 0 #ded0d6; }
+.sentence-skip { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; margin: 9px auto 0; padding: 0 12px; border: 0; color: var(--muted); background: transparent; font-size: .76rem; font-weight: 900; }
 .joker-bar { display: grid; grid-template-columns: 1fr 1fr auto; gap: 9px; margin-top: 12px; }.joker-bar button, .quiz-coins { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: rgba(255,253,247,.9); font-weight: 900; }.joker-bar button small { color: var(--red); }.joker-bar button:disabled { opacity: .45; }.quiz-coins { color: #9a6c14; }
 
 .primary-button, .secondary-button, .reset-confirm { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 49px; padding: 0 18px; border-radius: 15px; font-weight: 900; }.primary-button { border: 0; color: #fff; background: var(--red); box-shadow: 0 5px 0 var(--red-dark); }.primary-button:disabled { opacity: .42; box-shadow: none; }.secondary-button { border: 1px solid var(--line); color: var(--ink); background: var(--paper); }.reset-confirm { border: 0; color: #fff; background: #9d3932; }
@@ -204,6 +214,7 @@ button:disabled { cursor: not-allowed; }
   .question-prompt { margin: 2px auto 10px; font-size: .88rem; line-height: 1.35; }
   .task-display { min-height: 86px; margin-bottom: 12px; font-size: clamp(2.55rem, 15vw, 4.2rem); }
   .task-display.emoji-display { font-size: clamp(4rem, 21vw, 6rem); }
+  .task-display.sentence-clue { min-height: auto; margin-bottom: 11px; font-size: .66rem; }
   .task-artwork { width: 126px; height: 126px; margin-bottom: 13px; border-radius: 27px 27px 27px 8px; }
   .task-artwork img { padding: 8px; }
   .task-artwork span { font-size: 4.5rem; }
@@ -218,6 +229,10 @@ button:disabled { cursor: not-allowed; }
   .letter-bank button { min-width: 44px; height: 46px; padding: 0 10px; font-size: 1.08rem; }
   .spelling-actions { grid-template-columns: 1fr 1.3fr; gap: 7px; }
   .spelling-actions button { min-height: 46px; padding: 0 10px; font-size: .8rem; }
+  .sentence-answer { min-height: 86px; margin-bottom: 12px; padding: 12px; gap: 6px; border-radius: 18px 18px 18px 7px; }
+  .sentence-answer > span:not(.sentence-placeholder) { min-height: 36px; padding: 6px 9px; font-size: .8rem; }
+  .sentence-bank { gap: 6px; margin-bottom: 13px; }
+  .sentence-bank button { min-height: 44px; padding: 6px 11px; font-size: .78rem; }
   .joker-bar { grid-template-columns: 1fr 1fr auto; gap: 6px; margin-top: 8px; }
   .joker-bar button, .quiz-coins { gap: 4px; min-height: 44px; padding: 0 8px; border-radius: 12px; font-size: .72rem; }
   .joker-bar button { flex-wrap: wrap; align-content: center; line-height: 1; }

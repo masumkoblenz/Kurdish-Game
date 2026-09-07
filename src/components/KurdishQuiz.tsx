@@ -31,6 +31,7 @@ import {
   buildMathRound,
   buildMonthRound,
   buildNumberRound,
+  buildSentenceRound,
   buildWeekDayRound,
   buildWordRound,
   kurdishAlphabet,
@@ -64,9 +65,11 @@ type Result = { score: number; correct: number; wrong: number; coins: number; xp
 type RoundStats = { score: number; correct: number; wrong: number; earnedCoins: number; earnedXp: number; bestCombo: number; fastestMark: number }
 
 const emptyStats: RoundStats = { score: 0, correct: 0, wrong: 0, earnedCoins: 0, earnedXp: 0, bestCombo: 0, fastestMark: 0 }
+const roundSeconds = (area: MainAreaId) => area === 'hevok' ? 45 : 30
 
 function getTasks(selection: RoundSelection, level: number) {
   if (selection.area === 'peyiv') return buildWordRound(selection.id as CategoryId)
+  if (selection.area === 'hevok') return buildSentenceRound()
   if (selection.area === 'tip') return buildLetterRound(selection.id as (typeof kurdishAlphabet)[number])
   if (selection.area === 'hejmar') return buildNumberRound(Number(selection.id))
   if (selection.area === 'rojen-hefteye') return buildWeekDayRound(selection.id)
@@ -201,7 +204,7 @@ export default function KurdishQuiz() {
         return
       }
       setQuestionIndex((value) => value + 1)
-      setSeconds(30)
+      setSeconds(roundSeconds(question.area))
       setSelectedAnswer(null)
       setAnswerWasCorrect(null)
       setHiddenAnswers([])
@@ -237,7 +240,7 @@ export default function KurdishQuiz() {
     setSelection(nextSelection)
     setRound(tasks)
     setQuestionIndex(0)
-    setSeconds(30)
+    setSeconds(roundSeconds(nextSelection.area))
     setLives(3)
     setCombo(0)
     setStats(emptyStats)
@@ -255,8 +258,8 @@ export default function KurdishQuiz() {
   }
 
   const openArea = (area: MainAreaId) => {
-    if (area === 'emoji') {
-      startGame({ area: 'emoji', id: 'emoji', title: 'Emojî' })
+    if (area === 'emoji' || area === 'hevok') {
+      startGame({ area, id: area, title: area === 'hevok' ? 'Hevok' : 'Emojî' })
       return
     }
     setActiveArea(area)
@@ -281,7 +284,11 @@ export default function KurdishQuiz() {
 
   const selectLetter = (index: number) => {
     const question = round[questionIndex]
-    if (!question || question.kind !== 'spelling' || answerWasCorrect !== null) return
+    if (!question || (question.kind !== 'spelling' && question.kind !== 'sentence') || answerWasCorrect !== null) return
+    if (question.kind === 'sentence') {
+      setSelectedLetterIndices((current) => [...current, index])
+      return
+    }
     if (question.area !== 'emoji') {
       setSelectedLetterIndices((current) => [...current, index])
       return
@@ -306,7 +313,7 @@ export default function KurdishQuiz() {
       return
     }
     setQuestionIndex((value) => value + 1)
-    setSeconds(30)
+    setSeconds(roundSeconds(round[questionIndex + 1]?.area ?? round[questionIndex]?.area ?? 'peyiv'))
     setSelectedAnswer(null)
     setHiddenAnswers([])
     setSelectedLetterIndices([])
@@ -346,6 +353,9 @@ export default function KurdishQuiz() {
   const spelledWord = currentQuestion?.kind === 'spelling'
     ? selectedLetterIndices.map((index) => currentQuestion.options[index]).join('')
     : ''
+  const builtSentence = currentQuestion?.kind === 'sentence'
+    ? selectedLetterIndices.map((index) => currentQuestion.options[index]).join(' ')
+    : ''
 
   return (
     <main className="app-shell">
@@ -373,7 +383,7 @@ export default function KurdishQuiz() {
           onAnswer={(answer) => answerQuestion(answer)}
           onLetter={selectLetter}
           onDeleteLetter={() => setSelectedLetterIndices((current) => current.slice(0, -1))}
-          onCheckWord={() => answerQuestion(spelledWord, true)}
+          onCheckWord={() => answerQuestion(currentQuestion.kind === 'sentence' ? builtSentence : spelledWord, true)}
           onSkip={skipQuestion}
           onFifty={useFiftyFifty}
           onTime={addTime}
@@ -500,7 +510,7 @@ function QuizView({ player, question, questionIndex, seconds, lives, combo, scor
         <p className="question-prompt">{question.prompt}</p>
         {question.area === 'peyiv' && question.sourceQuestion
           ? <QuestionArtwork question={question.sourceQuestion} className="task-artwork" />
-          : <div className={`task-display ${question.emoji ? 'emoji-display' : ''}`}>{question.display}</div>}
+          : <div className={`task-display ${question.emoji ? 'emoji-display' : ''} ${question.kind === 'sentence' ? 'sentence-clue' : ''}`}>{question.display}</div>}
 
         {question.kind === 'choice' ? (
           <div className="answer-grid">{question.options.map((option, index) => {
@@ -508,13 +518,22 @@ function QuizView({ player, question, questionIndex, seconds, lives, combo, scor
             const state = answerWasCorrect !== null && option === question.answer ? 'correct' : selectedAnswer === option && answerWasCorrect === false ? 'wrong' : ''
             return <button key={`${option}-${index}`} disabled={hidden || answerWasCorrect !== null} className={`answer-button ${state} ${hidden ? 'hidden' : ''}`} onClick={() => onAnswer(option)}><span>{String.fromCharCode(65 + index)}</span>{option}{state === 'correct' && <Check size={19} />}{state === 'wrong' && <X size={19} />}</button>
           })}</div>
-        ) : (
+        ) : question.kind === 'spelling' ? (
           <div className="spelling-game">
             <div className={`spelling-answer ${answerWasCorrect === false ? 'shake' : ''}`}>{question.answer.split('').map((_, index) => <span className={question.area === 'emoji' && index === spelledWord.length && answerWasCorrect === null ? 'next-letter' : ''} key={index}>{spelledWord[index] ?? ''}</span>)}</div>
             <div className="letter-bank">{question.options.map((letter, index) => <button key={`${letter}-${index}-${wrongLetter?.index === index ? wrongLetter.attempt : 0}`} className={wrongLetter?.index === index ? 'wrong-letter' : ''} disabled={selectedLetterIndices.includes(index) || answerWasCorrect !== null} onClick={() => onLetter(index)}>{letter}</button>)}</div>
             {question.area === 'emoji'
               ? <div className="spelling-actions single-action"><button className="secondary-button skip-button" onClick={onSkip} disabled={answerWasCorrect !== null}>Derbas bike <ChevronRight size={18} /></button></div>
               : <div className="spelling-actions"><button className="secondary-button" onClick={onDeleteLetter} disabled={selectedLetterIndices.length === 0 || answerWasCorrect !== null}><Delete size={18} /> Paşde</button><button className="primary-button" onClick={onCheckWord} disabled={spelledWord.length !== question.answer.length || answerWasCorrect !== null}>Kontrol bike <Check size={18} /></button></div>}
+          </div>
+        ) : (
+          <div className="sentence-game">
+            <div className={`sentence-answer ${answerWasCorrect === false ? 'shake' : ''}`} aria-label="Hevoka te">
+              {selectedLetterIndices.length === 0 ? <span className="sentence-placeholder">Peyvên li jêr hilbijêre…</span> : selectedLetterIndices.map((optionIndex) => <span key={optionIndex}>{question.options[optionIndex]}</span>)}
+            </div>
+            <div className="sentence-bank">{question.options.map((word, index) => <button key={`${word}-${index}`} disabled={selectedLetterIndices.includes(index) || answerWasCorrect !== null} onClick={() => onLetter(index)}>{word}</button>)}</div>
+            <div className="spelling-actions"><button className="secondary-button" onClick={onDeleteLetter} disabled={selectedLetterIndices.length === 0 || answerWasCorrect !== null}><Delete size={18} /> Peyva paşîn</button><button className="primary-button" onClick={onCheckWord} disabled={selectedLetterIndices.length !== question.options.length || answerWasCorrect !== null}>Kontrol bike <Check size={18} /></button></div>
+            <button className="sentence-skip" onClick={onSkip} disabled={answerWasCorrect !== null}>Vê hevokê derbas bike <ChevronRight size={17} /></button>
           </div>
         )}
 
