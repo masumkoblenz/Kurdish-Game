@@ -84,6 +84,7 @@ export default function KurdishQuiz() {
   const [answerWasCorrect, setAnswerWasCorrect] = useState<boolean | null>(null)
   const [hiddenAnswers, setHiddenAnswers] = useState<string[]>([])
   const [selectedLetterIndices, setSelectedLetterIndices] = useState<number[]>([])
+  const [wrongLetter, setWrongLetter] = useState<{ index: number; attempt: number } | null>(null)
   const [result, setResult] = useState<Result | null>(null)
   const [toast, setToast] = useState('')
   const [achievementPopup, setAchievementPopup] = useState<Achievement[]>([])
@@ -113,6 +114,12 @@ export default function KurdishQuiz() {
     const timer = window.setTimeout(() => setToast(''), 2200)
     return () => window.clearTimeout(timer)
   }, [toast])
+
+  useEffect(() => {
+    if (!wrongLetter) return
+    const timer = window.setTimeout(() => setWrongLetter(null), 420)
+    return () => window.clearTimeout(timer)
+  }, [wrongLetter])
 
   const finishGame = useCallback((finalLives: number, finalStats: RoundStats) => {
     if (!player || !selection) return
@@ -193,6 +200,7 @@ export default function KurdishQuiz() {
       setAnswerWasCorrect(null)
       setHiddenAnswers([])
       setSelectedLetterIndices([])
+      setWrongLetter(null)
     }, isCorrect ? 850 : 1050)
   }, [answerWasCorrect, combo, finishGame, lives, questionIndex, round, seconds, stats])
 
@@ -231,6 +239,7 @@ export default function KurdishQuiz() {
     setAnswerWasCorrect(null)
     setHiddenAnswers([])
     setSelectedLetterIndices([])
+    setWrongLetter(null)
     setResult(null)
     setView('quiz')
   }
@@ -262,6 +271,40 @@ export default function KurdishQuiz() {
     if (player.coins < 10) return setToast('Zêrê te têr nake.')
     setSeconds((value) => value + 5)
     updatePlayer((current) => ({ ...current, coins: current.coins - 10 }))
+  }
+
+  const selectLetter = (index: number) => {
+    const question = round[questionIndex]
+    if (!question || question.kind !== 'spelling' || answerWasCorrect !== null) return
+    if (question.area !== 'emoji') {
+      setSelectedLetterIndices((current) => [...current, index])
+      return
+    }
+
+    const expectedLetter = question.answer[selectedLetterIndices.length]
+    if (question.options[index] !== expectedLetter) {
+      setWrongLetter((current) => ({ index, attempt: (current?.attempt ?? 0) + 1 }))
+      return
+    }
+
+    const nextIndices = [...selectedLetterIndices, index]
+    setWrongLetter(null)
+    setSelectedLetterIndices(nextIndices)
+    if (nextIndices.length === question.answer.length) answerQuestion(question.answer)
+  }
+
+  const skipQuestion = () => {
+    if (answerWasCorrect !== null) return
+    if (questionIndex >= 9) {
+      finishGame(lives, stats)
+      return
+    }
+    setQuestionIndex((value) => value + 1)
+    setSeconds(30)
+    setSelectedAnswer(null)
+    setHiddenAnswers([])
+    setSelectedLetterIndices([])
+    setWrongLetter(null)
   }
 
   const toggleSavedWord = (questionId: string) => {
@@ -318,12 +361,14 @@ export default function KurdishQuiz() {
           answerWasCorrect={answerWasCorrect}
           hiddenAnswers={hiddenAnswers}
           selectedLetterIndices={selectedLetterIndices}
+          wrongLetter={wrongLetter}
           spelledWord={spelledWord}
           isSaved={Boolean(currentQuestion.sourceQuestion && player.savedWords[currentQuestion.sourceQuestion.id])}
           onAnswer={(answer) => answerQuestion(answer)}
-          onLetter={(index) => setSelectedLetterIndices((current) => [...current, index])}
+          onLetter={selectLetter}
           onDeleteLetter={() => setSelectedLetterIndices((current) => current.slice(0, -1))}
           onCheckWord={() => answerQuestion(spelledWord, true)}
+          onSkip={skipQuestion}
           onFifty={useFiftyFifty}
           onTime={addTime}
           onToggleSaved={() => currentQuestion.sourceQuestion && toggleSavedWord(currentQuestion.sourceQuestion.id)}
@@ -434,13 +479,13 @@ function AreaView({ area, onBack, onStart }: { area: MainAreaId; onBack: () => v
   )
 }
 
-function QuizView({ player, question, questionIndex, seconds, lives, combo, score, selectedAnswer, answerWasCorrect, hiddenAnswers, selectedLetterIndices, spelledWord, isSaved, onAnswer, onLetter, onDeleteLetter, onCheckWord, onFifty, onTime, onToggleSaved, onExit }: { player: PlayerData; question: LearningTask; questionIndex: number; seconds: number; lives: number; combo: number; score: number; selectedAnswer: string | null; answerWasCorrect: boolean | null; hiddenAnswers: string[]; selectedLetterIndices: number[]; spelledWord: string; isSaved: boolean; onAnswer: (answer: string) => void; onLetter: (index: number) => void; onDeleteLetter: () => void; onCheckWord: () => void; onFifty: () => void; onTime: () => void; onToggleSaved: () => void; onExit: () => void }) {
+function QuizView({ player, question, questionIndex, seconds, lives, combo, score, selectedAnswer, answerWasCorrect, hiddenAnswers, selectedLetterIndices, wrongLetter, spelledWord, isSaved, onAnswer, onLetter, onDeleteLetter, onCheckWord, onSkip, onFifty, onTime, onToggleSaved, onExit }: { player: PlayerData; question: LearningTask; questionIndex: number; seconds: number; lives: number; combo: number; score: number; selectedAnswer: string | null; answerWasCorrect: boolean | null; hiddenAnswers: string[]; selectedLetterIndices: number[]; wrongLetter: { index: number; attempt: number } | null; spelledWord: string; isSaved: boolean; onAnswer: (answer: string) => void; onLetter: (index: number) => void; onDeleteLetter: () => void; onCheckWord: () => void; onSkip: () => void; onFifty: () => void; onTime: () => void; onToggleSaved: () => void; onExit: () => void }) {
   const progress = ((questionIndex + 1) / 10) * 100
   return (
     <div className="quiz-page">
       <div className="quiz-hud">
         <header className="quiz-header"><button className="icon-button" onClick={onExit} aria-label="Vegere malê"><X /></button><div className="quiz-progress" role="progressbar" aria-label="Pêşketina pirsan" aria-valuemin={0} aria-valuemax={10} aria-valuenow={questionIndex + 1}><span style={{ width: `${progress}%` }} /></div><div className="quiz-lives" aria-label={`${lives} jiyan mane`}>{Array.from({ length: 3 }, (_, index) => <Heart key={index} size={19} fill={index < lives ? 'currentColor' : 'none'} className={index < lives ? '' : 'lost'} />)}</div></header>
-        <div className="quiz-meta"><span className="quiz-question-count">Pirsa {questionIndex + 1} / 10</span><strong className="quiz-time"><Clock3 size={17} /> {seconds}s</strong><span className="quiz-combo"><Flame size={17} /> {combo} rêz</span><span className="quiz-score">{score} xal</span></div>
+        <div className="quiz-meta"><span className="quiz-question-count">Pirsa {questionIndex + 1} / 10</span><strong className={`quiz-time ${seconds <= 5 ? 'urgent' : ''}`} aria-label={`${seconds} çirke mane`}><Clock3 size={18} /><span>Dem</span><b>{seconds}</b><small>çirke</small></strong><span className="quiz-combo"><Flame size={17} /> {combo} rêz</span><span className="quiz-score">{score} xal</span></div>
       </div>
       <section className={`question-card ${answerWasCorrect === true ? 'correct-flash' : answerWasCorrect === false ? 'wrong-flash' : ''}`}>
         <div className="question-kicker"><span>{question.title}</span>{question.sourceQuestion && <button className={isSaved ? 'saved' : ''} onClick={onToggleSaved} aria-label={isSaved ? 'Peyvê rake' : 'Peyvê tomar bike'}>{isSaved ? <BookmarkCheck /> : <Bookmark />}</button>}</div>
@@ -457,15 +502,17 @@ function QuizView({ player, question, questionIndex, seconds, lives, combo, scor
           })}</div>
         ) : (
           <div className="spelling-game">
-            <div className={`spelling-answer ${answerWasCorrect === false ? 'shake' : ''}`}>{question.answer.split('').map((_, index) => <span key={index}>{spelledWord[index] ?? ''}</span>)}</div>
-            <div className="letter-bank">{question.options.map((letter, index) => <button key={`${letter}-${index}`} disabled={selectedLetterIndices.includes(index) || answerWasCorrect !== null} onClick={() => onLetter(index)}>{letter}</button>)}</div>
-            <div className="spelling-actions"><button className="secondary-button" onClick={onDeleteLetter} disabled={selectedLetterIndices.length === 0 || answerWasCorrect !== null}><Delete size={18} /> Paşde</button><button className="primary-button" onClick={onCheckWord} disabled={spelledWord.length !== question.answer.length || answerWasCorrect !== null}>Kontrol bike <Check size={18} /></button></div>
+            <div className={`spelling-answer ${answerWasCorrect === false ? 'shake' : ''}`}>{question.answer.split('').map((_, index) => <span className={question.area === 'emoji' && index === spelledWord.length && answerWasCorrect === null ? 'next-letter' : ''} key={index}>{spelledWord[index] ?? ''}</span>)}</div>
+            <div className="letter-bank">{question.options.map((letter, index) => <button key={`${letter}-${index}-${wrongLetter?.index === index ? wrongLetter.attempt : 0}`} className={wrongLetter?.index === index ? 'wrong-letter' : ''} disabled={selectedLetterIndices.includes(index) || answerWasCorrect !== null} onClick={() => onLetter(index)}>{letter}</button>)}</div>
+            {question.area === 'emoji'
+              ? <div className="spelling-actions single-action"><button className="secondary-button skip-button" onClick={onSkip} disabled={answerWasCorrect !== null}>Derbas bike <ChevronRight size={18} /></button></div>
+              : <div className="spelling-actions"><button className="secondary-button" onClick={onDeleteLetter} disabled={selectedLetterIndices.length === 0 || answerWasCorrect !== null}><Delete size={18} /> Paşde</button><button className="primary-button" onClick={onCheckWord} disabled={spelledWord.length !== question.answer.length || answerWasCorrect !== null}>Kontrol bike <Check size={18} /></button></div>}
           </div>
         )}
 
         <div className="feedback-line" aria-live="polite">{answerWasCorrect === true && <span className="good"><CheckCircle2 /> Pir baş! Bersiva te rast e.</span>}{answerWasCorrect === false && <span className="bad"><X /> Hîn carekê biceribîne.</span>}</div>
       </section>
-      <div className="joker-bar"><button onClick={onFifty} disabled={question.kind !== 'choice' || hiddenAnswers.length > 0 || answerWasCorrect !== null}><Sparkles size={18} /> Nîv-nîv <small>10 zêr</small></button><button onClick={onTime} disabled={answerWasCorrect !== null}><Clock3 size={18} /> +5 saniye <small>10 zêr</small></button><span className="quiz-coins"><Coins size={18} /> {player.coins}</span></div>
+      <div className="joker-bar"><button onClick={onFifty} disabled={question.kind !== 'choice' || hiddenAnswers.length > 0 || answerWasCorrect !== null}><Sparkles size={18} /> Nîv-nîv <small>10 zêr</small></button><button onClick={onTime} disabled={answerWasCorrect !== null}><Clock3 size={18} /> +5 çirke <small>10 zêr</small></button><span className="quiz-coins"><Coins size={18} /> {player.coins}</span></div>
     </div>
   )
 }
