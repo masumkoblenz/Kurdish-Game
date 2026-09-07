@@ -1,8 +1,14 @@
 import { categories, questions, type CategoryId, type QuizQuestion } from '@/data/questions'
 
-export type MainAreaId = 'peyiv' | 'tip' | 'hejmar' | 'matematik' | 'emoji'
+export type MainAreaId = 'peyiv' | 'tip' | 'hejmar' | 'rojen-hefteye' | 'meh' | 'matematik' | 'emoji'
 export type MathOperation = 'komkirin' | 'kemkirin' | 'zedekirin' | 'parvekirin'
 export type TaskKind = 'choice' | 'spelling'
+
+type CalendarEntry = {
+  id: string
+  name: string
+  emoji: string
+}
 
 export type LearningTask = {
   id: string
@@ -21,6 +27,8 @@ export const mainAreas = [
   { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral' },
   { id: 'tip' as const, name: 'Tîp', description: 'Bi 15+ cureyên pirsan hîn bibe', emoji: '🔤', color: 'sun' },
   { id: 'hejmar' as const, name: 'Hejmar', description: 'Bi 15+ cureyên pirsan bilîze', emoji: '🔢', color: 'sky' },
+  { id: 'rojen-hefteye' as const, name: 'Rojên hefteyê', description: 'Nav û rêza heft rojan hîn bibe', emoji: '📅', color: 'rose' },
+  { id: 'meh' as const, name: 'Meh', description: 'Nav û rêza diwanzdeh mehan hîn bibe', emoji: '🗓️', color: 'indigo' },
   { id: 'matematik' as const, name: 'Matematîk', description: 'Bi hejmaran bilîze', emoji: '➕', color: 'mint' },
   { id: 'emoji' as const, name: 'Emojî', description: 'Peyvê ji tîpan çêbike', emoji: '😀', color: 'violet' },
 ]
@@ -69,6 +77,31 @@ export const letterExamples: Record<(typeof kurdishAlphabet)[number], string[]> 
 }
 
 export const numberWords = ['sifir', 'yek', 'du', 'sê', 'çar', 'pênc', 'şeş', 'heft', 'heyşt', 'neh'] as const
+
+export const weekDays: CalendarEntry[] = [
+  { id: 'yeksem', name: 'Yekşem', emoji: '☀️' },
+  { id: 'dusem', name: 'Duşem', emoji: '🌙' },
+  { id: 'sesem', name: 'Sêşem', emoji: '🔥' },
+  { id: 'carsem', name: 'Çarşem', emoji: '💧' },
+  { id: 'pencsem', name: 'Pêncşem', emoji: '🌿' },
+  { id: 'in', name: 'În', emoji: '⭐' },
+  { id: 'semi', name: 'Şemî', emoji: '🌈' },
+]
+
+export const months: CalendarEntry[] = [
+  { id: 'rebendan', name: 'Rêbendan', emoji: '❄️' },
+  { id: 'sibat', name: 'Sibat', emoji: '🌧️' },
+  { id: 'adar', name: 'Adar', emoji: '🌱' },
+  { id: 'nisan', name: 'Nîsan', emoji: '🌷' },
+  { id: 'gulan', name: 'Gulan', emoji: '🌼' },
+  { id: 'heziran', name: 'Hezîran', emoji: '☀️' },
+  { id: 'tirmeh', name: 'Tîrmeh', emoji: '🍉' },
+  { id: 'tebax', name: 'Tebax', emoji: '🌾' },
+  { id: 'ilon', name: 'Îlon', emoji: '🍇' },
+  { id: 'cotmeh', name: 'Cotmeh', emoji: '🍂' },
+  { id: 'mijdar', name: 'Mijdar', emoji: '🌰' },
+  { id: 'berfanbar', name: 'Berfanbar', emoji: '⛄' },
+]
 
 export const mathOperations = [
   { id: 'komkirin' as const, name: 'Komkirin', emoji: '➕', description: 'Hejmaran li hev zêde bike' },
@@ -352,6 +385,115 @@ export function buildNumberTaskPool(number: number): LearningTask[] {
     },
   ]
   return tasks
+}
+
+function calendarNumberOptions(answer: number, maximum: number) {
+  const candidates = Array.from({ length: Math.max(maximum, answer + 3) }, (_, index) => String(index + 1))
+  return choiceOptions(String(answer), candidates)
+}
+
+function buildCalendarTaskPool(
+  entries: CalendarEntry[],
+  entryId: string,
+  area: 'rojen-hefteye' | 'meh',
+  singular: string,
+  plural: string,
+  outsideWords: string[],
+): LearningTask[] {
+  const index = entries.findIndex((entry) => entry.id === entryId)
+  if (index < 0) return []
+
+  const entry = entries[index]
+  const previous = entries[(index - 1 + entries.length) % entries.length]
+  const next = entries[(index + 1) % entries.length]
+  const position = index + 1
+  const positionFromEnd = entries.length - index
+  const names = entries.map((item) => item.name)
+  const firstLetter = [...entry.name][0]
+  const otherFirstLetters = unique(entries.map((item) => [...item.name][0]).filter((letter) => letter !== firstLetter))
+  const letterCount = [...entry.name].length
+  const vowelCount = [...entry.name.toLowerCase()].filter((letter) => 'aeêiîouû'.includes(letter)).length
+  const pair = `${position} — ${entry.name}`
+  const pairDistractors = entries.map((_, itemIndex) => `${itemIndex + 1} — ${entries[(itemIndex + 1) % entries.length].name}`)
+
+  return [
+    {
+      id: `${area}-${entry.id}-nav`, kind: 'choice', area, title: `Navê ${singular}`,
+      prompt: `Navê ${singular} rast hilbijêre.`, display: `${entry.emoji} ${singular} ${position}`, answer: entry.name, options: choiceOptions(entry.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-cih`, kind: 'choice', area, title: `Cihê ${singular}`,
+      prompt: `${entry.name} ${singular} çendemîn e?`, display: entry.name, answer: String(position), options: calendarNumberOptions(position, entries.length),
+    },
+    {
+      id: `${area}-${entry.id}-beri`, kind: 'choice', area, title: `${singular} berî wê`,
+      prompt: `Kîjan ${singular} berî ${entry.name} tê?`, display: entry.name, answer: previous.name, options: choiceOptions(previous.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-pisti`, kind: 'choice', area, title: `${singular} piştî wê`,
+      prompt: `Kîjan ${singular} piştî ${entry.name} tê?`, display: entry.name, answer: next.name, options: choiceOptions(next.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-navbera`, kind: 'choice', area, title: 'Navbera du navan',
+      prompt: `Kîjan ${singular} di navbera ${previous.name} û ${next.name} de ye?`, display: `${previous.name} · ? · ${next.name}`, answer: entry.name, options: choiceOptions(entry.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-reza`, kind: 'choice', area, title: 'Rêzê temam bike',
+      prompt: `Navê kêm di rêza ${plural} de hilbijêre.`, display: `${previous.name} · _ · ${next.name}`, answer: entry.name, options: choiceOptions(entry.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-cot`, kind: 'choice', area, title: 'Cotê rast bibîne',
+      prompt: `Kîjan cot cih û navê ${singular} rast nîşan dide?`, display: entry.emoji, answer: pair, options: choiceOptions(pair, pairDistractors),
+    },
+    {
+      id: `${area}-${entry.id}-destpek`, kind: 'choice', area, title: 'Tîpa destpêkê',
+      prompt: `${entry.name} bi kîjan tîpê dest pê dike?`, display: entry.name, answer: firstLetter, options: choiceOptions(firstLetter, otherFirstLetters),
+    },
+    {
+      id: `${area}-${entry.id}-tip`, kind: 'choice', area, title: 'Tîpan bijmêre',
+      prompt: `Di navê ${entry.name} de çend tîp hene?`, display: entry.name, answer: String(letterCount), options: calendarNumberOptions(letterCount, 12),
+    },
+    {
+      id: `${area}-${entry.id}-nivisandin`, kind: 'spelling', area, title: 'Navê ji tîpan çêbike',
+      prompt: `Navê ${entry.name} ji nû ve çêbike.`, display: entry.emoji, answer: entry.name, options: shuffle([...entry.name]),
+    },
+    {
+      id: `${area}-${entry.id}-beri-pisti`, kind: 'choice', area, title: 'Berî navê din',
+      prompt: `Kîjan ${singular} berî ${next.name} tê?`, display: next.name, answer: entry.name, options: choiceOptions(entry.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-pisti-beri`, kind: 'choice', area, title: 'Piştî navê din',
+      prompt: `Kîjan ${singular} piştî ${previous.name} tê?`, display: previous.name, answer: entry.name, options: choiceOptions(entry.name, names),
+    },
+    {
+      id: `${area}-${entry.id}-dawi`, kind: 'choice', area, title: 'Ji dawiyê bijmêre',
+      prompt: `${entry.name} ji dawiya rêzê ${singular} çendemîn e?`, display: entry.name, answer: String(positionFromEnd), options: calendarNumberOptions(positionFromEnd, entries.length),
+    },
+    {
+      id: `${area}-${entry.id}-kom`, kind: 'choice', area, title: 'Navê rast ji komê',
+      prompt: `Kîjan nav yek ji ${plural} ye?`, display: entry.emoji, answer: entry.name, options: choiceOptions(entry.name, outsideWords),
+    },
+    {
+      id: `${area}-${entry.id}-dengdêr`, kind: 'choice', area, title: 'Dengdêran bijmêre',
+      prompt: `Di navê ${entry.name} de çend dengdêr hene?`, display: entry.name, answer: String(vowelCount), options: calendarNumberOptions(vowelCount, 8),
+    },
+  ]
+}
+
+export function buildWeekDayTaskPool(dayId: string): LearningTask[] {
+  return buildCalendarTaskPool(weekDays, dayId, 'rojen-hefteye', 'roj', 'rojên hefteyê', months.map((month) => month.name))
+}
+
+export function buildWeekDayRound(dayId: string): LearningTask[] {
+  return fillRound(buildWeekDayTaskPool(dayId))
+}
+
+export function buildMonthTaskPool(monthId: string): LearningTask[] {
+  return buildCalendarTaskPool(months, monthId, 'meh', 'meh', 'mehan', weekDays.map((day) => day.name))
+}
+
+export function buildMonthRound(monthId: string): LearningTask[] {
+  return fillRound(buildMonthTaskPool(monthId))
 }
 
 export function buildNumberRound(number: number): LearningTask[] {

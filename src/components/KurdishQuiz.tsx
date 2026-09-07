@@ -29,13 +29,17 @@ import {
   buildEmojiRound,
   buildLetterRound,
   buildMathRound,
+  buildMonthRound,
   buildNumberRound,
+  buildWeekDayRound,
   buildWordRound,
   kurdishAlphabet,
   letterExamples,
   mainAreas,
   mathOperations,
+  months,
   numberWords,
+  weekDays,
   wordCategories,
   type LearningTask,
   type MainAreaId,
@@ -65,6 +69,8 @@ function getTasks(selection: RoundSelection, level: number) {
   if (selection.area === 'peyiv') return buildWordRound(selection.id as CategoryId)
   if (selection.area === 'tip') return buildLetterRound(selection.id as (typeof kurdishAlphabet)[number])
   if (selection.area === 'hejmar') return buildNumberRound(Number(selection.id))
+  if (selection.area === 'rojen-hefteye') return buildWeekDayRound(selection.id)
+  if (selection.area === 'meh') return buildMonthRound(selection.id)
   if (selection.area === 'matematik') return buildMathRound(selection.id as MathOperation, level)
   return buildEmojiRound()
 }
@@ -474,6 +480,8 @@ function AreaView({ area, onBack, onStart }: { area: MainAreaId; onBack: () => v
       {area === 'peyiv' && <div className="subcategory-grid word-subcategories">{wordCategories.map((category, index) => <button key={category.id} onClick={() => onStart({ area, id: category.id, title: category.name })} style={{ '--delay': `${index * 40}ms` } as CSSProperties}><span>{category.emoji}</span><strong>{category.name}</strong><small>{questions.filter((question) => question.category === category.id).length} peyv</small><ChevronRight size={18} /></button>)}</div>}
       {area === 'tip' && <div className="letter-grid">{kurdishAlphabet.map((letter, index) => <button key={letter} onClick={() => onStart({ area, id: letter, title: `Tîpa ${letter}` })} style={{ '--delay': `${index * 22}ms` } as CSSProperties}><strong>{letter}</strong><small>{letterExamples[letter].slice(0, 2).join(' · ')}</small></button>)}</div>}
       {area === 'hejmar' && <div className="number-grid">{numberWords.map((word, number) => <button key={number} onClick={() => onStart({ area, id: String(number), title: `Hejmar ${number}` })}><strong>{number}</strong><span>{word}</span></button>)}</div>}
+      {area === 'rojen-hefteye' && <div className="subcategory-grid calendar-subcategories">{weekDays.map((day, index) => <button key={day.id} onClick={() => onStart({ area, id: day.id, title: day.name })} style={{ '--delay': `${index * 45}ms` } as CSSProperties}><span>{day.emoji}</span><strong>{day.name}</strong><small>15 cureyên pirsan</small><ChevronRight size={18} /></button>)}</div>}
+      {area === 'meh' && <div className="subcategory-grid calendar-subcategories">{months.map((month, index) => <button key={month.id} onClick={() => onStart({ area, id: month.id, title: month.name })} style={{ '--delay': `${index * 35}ms` } as CSSProperties}><span>{month.emoji}</span><strong>{month.name}</strong><small>15 cureyên pirsan</small><ChevronRight size={18} /></button>)}</div>}
       {area === 'matematik' && <div className="subcategory-grid math-subcategories">{mathOperations.map((operation, index) => <button key={operation.id} onClick={() => onStart({ area, id: operation.id, title: operation.name })} style={{ '--delay': `${index * 60}ms` } as CSSProperties}><span>{operation.emoji}</span><strong>{operation.name}</strong><small>{operation.description}</small><ChevronRight size={18} /></button>)}</div>}
     </div>
   )
