@@ -8,6 +8,7 @@ type CalendarEntry = {
   id: string
   name: string
   emoji: string
+  price: number
 }
 
 export type LearningTask = {
@@ -24,14 +25,14 @@ export type LearningTask = {
 }
 
 export const mainAreas = [
-  { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral' },
-  { id: 'hevok' as const, name: 'Hevok', description: 'Peyvan bi rêza rast rêz bike', emoji: '💬', color: 'plum' },
-  { id: 'tip' as const, name: 'Tîp', description: 'Bi 15+ cureyên pirsan hîn bibe', emoji: '🔤', color: 'sun' },
-  { id: 'hejmar' as const, name: 'Hejmar', description: 'Bi 15+ cureyên pirsan bilîze', emoji: '🔢', color: 'sky' },
-  { id: 'rojen-hefteye' as const, name: 'Rojên hefteyê', description: 'Nav û rêza heft rojan hîn bibe', emoji: '📅', color: 'rose' },
-  { id: 'meh' as const, name: 'Meh', description: 'Nav û rêza diwanzdeh mehan hîn bibe', emoji: '🗓️', color: 'indigo' },
-  { id: 'matematik' as const, name: 'Matematîk', description: 'Bi hejmaran bilîze', emoji: '➕', color: 'mint' },
-  { id: 'emoji' as const, name: 'Emojî', description: 'Peyvê ji tîpan çêbike', emoji: '😀', color: 'violet' },
+  { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral', price: 50 },
+  { id: 'hevok' as const, name: 'Hevok', description: 'Peyvan bi rêza rast rêz bike', emoji: '💬', color: 'plum', price: 100 },
+  { id: 'tip' as const, name: 'Tîp', description: 'Bi 15+ cureyên pirsan hîn bibe', emoji: '🔤', color: 'sun', price: 0 },
+  { id: 'hejmar' as const, name: 'Hejmar', description: 'Bi 15+ cureyên pirsan bilîze', emoji: '🔢', color: 'sky', price: 150 },
+  { id: 'rojen-hefteye' as const, name: 'Rojên hefteyê', description: 'Nav û rêza heft rojan hîn bibe', emoji: '📅', color: 'rose', price: 200 },
+  { id: 'meh' as const, name: 'Meh', description: 'Nav û rêza diwanzdeh mehan hîn bibe', emoji: '🗓️', color: 'indigo', price: 250 },
+  { id: 'matematik' as const, name: 'Matematîk', description: 'Bi hejmaran bilîze', emoji: '➕', color: 'mint', price: 300 },
+  { id: 'emoji' as const, name: 'Emojî', description: 'Peyvê ji tîpan çêbike', emoji: '😀', color: 'violet', price: 350 },
 ]
 
 export const wordCategoryIds: CategoryId[] = ['xwarin', 'ajalan', 'wesayit', 'tist', 'xweza', 'reng', 'werzis', 'pise', 'welat', 'cih', 'dem']
@@ -42,6 +43,11 @@ export const wordCategories = wordCategoryIds.map((id) => {
 })
 
 export const kurdishAlphabet = ['A', 'B', 'C', 'Ç', 'D', 'E', 'Ê', 'F', 'G', 'H', 'I', 'Î', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'Ş', 'T', 'U', 'Û', 'V', 'W', 'X', 'Y', 'Z'] as const
+
+export const getLetterPrice = (letter: (typeof kurdishAlphabet)[number]) => {
+  const index = kurdishAlphabet.indexOf(letter)
+  return index === 0 ? 0 : 15 + index * 5
+}
 
 export const letterExamples: Record<(typeof kurdishAlphabet)[number], string[]> = {
   A: ['Av', 'Agir', 'Aso', 'Ajal', 'Armanc', 'Amed'],
@@ -79,36 +85,38 @@ export const letterExamples: Record<(typeof kurdishAlphabet)[number], string[]> 
 
 export const numberWords = ['sifir', 'yek', 'du', 'sê', 'çar', 'pênc', 'şeş', 'heft', 'heyşt', 'neh'] as const
 
+export const getNumberPrice = (number: number) => 20 + number * 10
+
 export const weekDays: CalendarEntry[] = [
-  { id: 'yeksem', name: 'Yekşem', emoji: '☀️' },
-  { id: 'dusem', name: 'Duşem', emoji: '🌙' },
-  { id: 'sesem', name: 'Sêşem', emoji: '🔥' },
-  { id: 'carsem', name: 'Çarşem', emoji: '💧' },
-  { id: 'pencsem', name: 'Pêncşem', emoji: '🌿' },
-  { id: 'in', name: 'În', emoji: '⭐' },
-  { id: 'semi', name: 'Şemî', emoji: '🌈' },
+  { id: 'yeksem', name: 'Yekşem', emoji: '☀️', price: 30 },
+  { id: 'dusem', name: 'Duşem', emoji: '🌙', price: 45 },
+  { id: 'sesem', name: 'Sêşem', emoji: '🔥', price: 60 },
+  { id: 'carsem', name: 'Çarşem', emoji: '💧', price: 75 },
+  { id: 'pencsem', name: 'Pêncşem', emoji: '🌿', price: 90 },
+  { id: 'in', name: 'În', emoji: '⭐', price: 105 },
+  { id: 'semi', name: 'Şemî', emoji: '🌈', price: 120 },
 ]
 
 export const months: CalendarEntry[] = [
-  { id: 'rebendan', name: 'Rêbendan', emoji: '❄️' },
-  { id: 'sibat', name: 'Sibat', emoji: '🌧️' },
-  { id: 'adar', name: 'Adar', emoji: '🌱' },
-  { id: 'nisan', name: 'Nîsan', emoji: '🌷' },
-  { id: 'gulan', name: 'Gulan', emoji: '🌼' },
-  { id: 'heziran', name: 'Hezîran', emoji: '☀️' },
-  { id: 'tirmeh', name: 'Tîrmeh', emoji: '🍉' },
-  { id: 'tebax', name: 'Tebax', emoji: '🌾' },
-  { id: 'ilon', name: 'Îlon', emoji: '🍇' },
-  { id: 'cotmeh', name: 'Cotmeh', emoji: '🍂' },
-  { id: 'mijdar', name: 'Mijdar', emoji: '🌰' },
-  { id: 'berfanbar', name: 'Berfanbar', emoji: '⛄' },
+  { id: 'rebendan', name: 'Rêbendan', emoji: '❄️', price: 30 },
+  { id: 'sibat', name: 'Sibat', emoji: '🌧️', price: 40 },
+  { id: 'adar', name: 'Adar', emoji: '🌱', price: 50 },
+  { id: 'nisan', name: 'Nîsan', emoji: '🌷', price: 60 },
+  { id: 'gulan', name: 'Gulan', emoji: '🌼', price: 70 },
+  { id: 'heziran', name: 'Hezîran', emoji: '☀️', price: 80 },
+  { id: 'tirmeh', name: 'Tîrmeh', emoji: '🍉', price: 90 },
+  { id: 'tebax', name: 'Tebax', emoji: '🌾', price: 100 },
+  { id: 'ilon', name: 'Îlon', emoji: '🍇', price: 110 },
+  { id: 'cotmeh', name: 'Cotmeh', emoji: '🍂', price: 120 },
+  { id: 'mijdar', name: 'Mijdar', emoji: '🌰', price: 130 },
+  { id: 'berfanbar', name: 'Berfanbar', emoji: '⛄', price: 140 },
 ]
 
 export const mathOperations = [
-  { id: 'komkirin' as const, name: 'Komkirin', emoji: '➕', description: 'Hejmaran li hev zêde bike' },
-  { id: 'kemkirin' as const, name: 'Kêmkirin', emoji: '➖', description: 'Ji hejmarê kêm bike' },
-  { id: 'zedekirin' as const, name: 'Zêdekirin', emoji: '✖️', description: 'Hejmaran çend caran zêde bike' },
-  { id: 'parvekirin' as const, name: 'Parvekirin', emoji: '➗', description: 'Hejmarê bi beşan parve bike' },
+  { id: 'komkirin' as const, name: 'Komkirin', emoji: '➕', description: 'Hejmaran li hev zêde bike', price: 75 },
+  { id: 'kemkirin' as const, name: 'Kêmkirin', emoji: '➖', description: 'Ji hejmarê kêm bike', price: 100 },
+  { id: 'zedekirin' as const, name: 'Zêdekirin', emoji: '✖️', description: 'Hejmaran çend caran zêde bike', price: 125 },
+  { id: 'parvekirin' as const, name: 'Parvekirin', emoji: '➗', description: 'Hejmarê bi beşan parve bike', price: 150 },
 ]
 
 export const shuffle = <T,>(items: T[]) => {

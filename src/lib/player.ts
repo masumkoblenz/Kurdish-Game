@@ -12,6 +12,8 @@ export type PlayerData = {
   wrongAnswers: number
   bestCombo: number
   unlockedCategories: CategoryId[]
+  unlockedAreas: string[]
+  unlockedLessons: string[]
   achievements: string[]
   savedWords: Record<string, { learned: boolean }>
 }
@@ -63,7 +65,9 @@ export function createPlayer(): PlayerData {
     correctAnswers: 0,
     wrongAnswers: 0,
     bestCombo: 0,
-    unlockedCategories: ['xwarin', 'ajalan'],
+    unlockedCategories: [],
+    unlockedAreas: ['tip'],
+    unlockedLessons: ['tip:A'],
     achievements: [],
     savedWords: {},
   }
@@ -74,7 +78,15 @@ export function loadPlayer(): PlayerData {
   if (!saved) return createPlayer()
   try {
     const parsed = JSON.parse(saved) as Partial<PlayerData>
-    return { ...createPlayer(), ...parsed, savedWords: parsed.savedWords ?? {} }
+    const unlockedAreas = Array.from(new Set(['tip', ...(parsed.unlockedAreas ?? [])]))
+    const unlockedLessons = Array.from(new Set(['tip:A', ...(parsed.unlockedLessons ?? [])]))
+    return {
+      ...createPlayer(),
+      ...parsed,
+      unlockedAreas,
+      unlockedLessons,
+      savedWords: parsed.savedWords ?? {},
+    }
   } catch {
     return createPlayer()
   }
