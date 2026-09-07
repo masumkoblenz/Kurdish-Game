@@ -70,7 +70,7 @@ button:disabled { cursor: not-allowed; }
 .main-area-card:first-child > span:nth-child(3) { align-self: end; }
 .main-area-card:hover { transform: translateY(-4px) rotate(-.25deg); box-shadow: 0 20px 42px rgba(52,43,33,.11); }
 .main-area-card::after { content: ""; position: absolute; right: -44px; bottom: -62px; width: 150px; height: 150px; border: 22px solid color-mix(in srgb, var(--accent) 15%, transparent); border-radius: 50%; }
-.main-area-card.coral { --accent: #d85c4a; }.main-area-card.sun { --accent: #d59b2c; }.main-area-card.sky { --accent: #4c77a8; }.main-area-card.mint { --accent: #328a70; }.main-area-card.violet { --accent: #66558f; }
+.main-area-card.coral { --accent: #d85c4a; }.main-area-card.sun { --accent: #d59b2c; }.main-area-card.sky { --accent: #4c77a8; }.main-area-card.rose { --accent: #b65369; }.main-area-card.indigo { --accent: #535f91; }.main-area-card.mint { --accent: #328a70; }.main-area-card.violet { --accent: #66558f; }
 .area-number { align-self: start; color: var(--accent); font-size: .7rem; font-weight: 900; letter-spacing: .13em; }
 .area-emoji { position: relative; z-index: 1; font-size: 2.75rem; }
 .main-area-card strong, .main-area-card small { display: block; }
@@ -100,7 +100,7 @@ button:disabled { cursor: not-allowed; }
 .page-header h1 { font: 900 2.15rem Georgia, serif; }
 .icon-button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--line); border-radius: 15px; color: var(--ink); background: var(--paper); }
 .area-banner { --accent: var(--red); display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 25px; margin-bottom: 24px; padding: 28px 34px; border-radius: 32px 32px 32px 9px; color: #fff; background: var(--accent); overflow: hidden; }
-.area-banner.coral { --accent: #c95746; }.area-banner.sun { --accent: #b98524; }.area-banner.sky { --accent: #416b9a; }.area-banner.mint { --accent: #2e7c66; }
+.area-banner.coral { --accent: #c95746; }.area-banner.sun { --accent: #b98524; }.area-banner.sky { --accent: #416b9a; }.area-banner.rose { --accent: #a84e63; }.area-banner.indigo { --accent: #4b5686; }.area-banner.mint { --accent: #2e7c66; }
 .area-banner > span { font-size: 5rem; filter: drop-shadow(0 8px 10px rgba(0,0,0,.12)); }
 .area-banner .overline { color: rgba(255,255,255,.7); }
 .area-banner h2 { margin: 0 0 7px; font: 900 2.6rem Georgia, serif; }
