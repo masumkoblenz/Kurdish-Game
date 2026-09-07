@@ -1,8 +1,8 @@
 import { categories, questions, type CategoryId, type QuizQuestion } from '@/data/questions'
 
-export type MainAreaId = 'peyiv' | 'tip' | 'hejmar' | 'rojen-hefteye' | 'meh' | 'matematik' | 'emoji'
+export type MainAreaId = 'peyiv' | 'hevok' | 'tip' | 'hejmar' | 'rojen-hefteye' | 'meh' | 'matematik' | 'emoji'
 export type MathOperation = 'komkirin' | 'kemkirin' | 'zedekirin' | 'parvekirin'
-export type TaskKind = 'choice' | 'spelling'
+export type TaskKind = 'choice' | 'spelling' | 'sentence'
 
 type CalendarEntry = {
   id: string
@@ -25,6 +25,7 @@ export type LearningTask = {
 
 export const mainAreas = [
   { id: 'peyiv' as const, name: 'Peyv', description: 'Peyvên nû nas bike', emoji: '🧩', color: 'coral' },
+  { id: 'hevok' as const, name: 'Hevok', description: 'Peyvan bi rêza rast rêz bike', emoji: '💬', color: 'plum' },
   { id: 'tip' as const, name: 'Tîp', description: 'Bi 15+ cureyên pirsan hîn bibe', emoji: '🔤', color: 'sun' },
   { id: 'hejmar' as const, name: 'Hejmar', description: 'Bi 15+ cureyên pirsan bilîze', emoji: '🔢', color: 'sky' },
   { id: 'rojen-hefteye' as const, name: 'Rojên hefteyê', description: 'Nav û rêza heft rojan hîn bibe', emoji: '📅', color: 'rose' },
@@ -145,6 +146,79 @@ function hideLetter(word: string, letter: string) {
   const index = characters.findIndex((character) => character.toUpperCase() === letter)
   if (index >= 0) characters[index] = '_'
   return characters.join('')
+}
+
+const sentenceBank = [
+  { clue: 'Sibeh', sentence: 'Ez her sibeh av vedixwim.' },
+  { clue: 'Îro', sentence: 'Tu îro li malê dimînî.' },
+  { clue: 'Dibistan', sentence: 'Ew li dibistanê Kurmancî hîn dibe.' },
+  { clue: 'Hevaltî', sentence: 'Em êvaran bi hev re diaxivin.' },
+  { clue: 'Xwendin', sentence: 'Hûn her roj pirtûkan dixwînin.' },
+  { clue: 'Lîstik', sentence: 'Zarok di baxçe de dilîzin.' },
+  { clue: 'Xwarin', sentence: 'Dayika min nanê germ dipêje.' },
+  { clue: 'Kar', sentence: 'Bavê min li bajêr dixebite.' },
+  { clue: 'Stran', sentence: 'Xwişka min stranek xweş dibêje.' },
+  { clue: 'Top', sentence: 'Birayê min bi topê dilîze.' },
+  { clue: 'Park', sentence: 'Zarok bi kêfxweşî li parkê direvin.' },
+  { clue: 'Mamoste', sentence: 'Mamoste pirsek nû ji me dipirse.' },
+  { clue: 'Xwendekar', sentence: 'Xwendekar bersivê li ser kaxezê dinivîse.' },
+  { clue: 'Pisîk', sentence: 'Pisîk li ser kursiyê rûniştiye.' },
+  { clue: 'Kûçik', sentence: 'Kûçik li ber derî radizê.' },
+  { clue: 'Roj', sentence: 'Roj sibehê ji rojhilatê derdikeve.' },
+  { clue: 'Baran', sentence: 'Baran ji ewrên reş dibare.' },
+  { clue: 'Zivistan', sentence: 'Di zivistanê de berf pir dibare.' },
+  { clue: 'Bihar', sentence: 'Di biharê de gul vedibin.' },
+  { clue: 'Sûk', sentence: 'Em roja înê diçin sûkê.' },
+  { clue: 'Mêvan', sentence: 'Mêvan îşev tên mala me.' },
+  { clue: 'Çay', sentence: 'Kalê min çaya germ vedixwe.' },
+  { clue: 'Çîrok', sentence: 'Pîrika min çîrokek dirêj dibêje.' },
+  { clue: 'Muzîk', sentence: 'Ez bi kêf muzîka kurdî guhdarî dikim.' },
+  { clue: 'Rêwîtî', sentence: 'Em sibê bi otobêsê diçin Amedê.' },
+  { clue: 'Dikan', sentence: 'Tu ji dikanê sêvan dikirî.' },
+  { clue: 'Av', sentence: 'Ew avê ji kanîyê tîne.' },
+  { clue: 'Mal', sentence: 'Mala me li nêzî dibistanê ye.' },
+  { clue: 'Ode', sentence: 'Di odeyê de pencereyek mezin heye.' },
+  { clue: 'Pirtûk', sentence: 'Pirtûka sor li ser maseyê ye.' },
+  { clue: 'Heval', sentence: 'Hevalê min îro pir kêfxweş e.' },
+  { clue: 'Malbat', sentence: 'Malbata me şevê bi hev re dixwe.' },
+  { clue: 'Ziman', sentence: 'Ez dixwazim Kurmancî baş biaxivim.' },
+  { clue: 'Alîkarî', sentence: 'Em ji hevalên xwe re alîkarî dikin.' },
+  { clue: 'Pirs', sentence: 'Tu dikarî vê pirsê bersiv bidî.' },
+  { clue: 'Derî', sentence: 'Ji kerema xwe derî bigire.' },
+  { clue: 'Ronahî', sentence: 'Ji kerema xwe ronahiyê veke.' },
+  { clue: 'Dem', sentence: 'Saet niha heft û nîv e.' },
+  { clue: 'Hefte', sentence: 'Îro roja sêşemê ye.' },
+  { clue: 'Hewa', sentence: 'Îro hewa germ û zelal e.' },
+  { clue: 'Çiya', sentence: 'Çiyayên Kurdistanê bilind û bedew in.' },
+  { clue: 'Çem', sentence: 'Çem di nav gund re derbas dibe.' },
+  { clue: 'Dar', sentence: 'Çivîk li ser dara kesk e.' },
+  { clue: 'Baxçe', sentence: 'Di baxçeyê me de gelek gul hene.' },
+  { clue: 'Reng', sentence: 'Rengê ez herî zêde hez dikim kesk e.' },
+  { clue: 'Werzîş', sentence: 'Ew her sibeh werzîş dike.' },
+  { clue: 'Futbol', sentence: 'Tîma me roja şemiyê futbol dilîze.' },
+  { clue: 'Bazdan', sentence: 'Ez dikarim pir bilez bibezim.' },
+  { clue: 'Xewn', sentence: 'Zarok dixwaze bibe mamoste.' },
+  { clue: 'Şevbaş', sentence: 'Em berî razanê dibêjin şev baş.' },
+]
+
+export function buildSentenceRound(): LearningTask[] {
+  return shuffle(sentenceBank).slice(0, 10).map((entry, index) => {
+    const words = entry.sentence.split(' ')
+    const shuffledWords = shuffle(words)
+    if (shuffledWords.every((word, wordIndex) => word === words[wordIndex])) {
+      shuffledWords.push(shuffledWords.shift()!)
+    }
+    return {
+      id: `hevok-${Date.now()}-${index}`,
+      kind: 'sentence',
+      area: 'hevok',
+      title: 'Hevokê ava bike',
+      prompt: 'Peyvan bitikîne û bi rêza rast rêz bike.',
+      display: entry.clue,
+      answer: entry.sentence,
+      options: shuffledWords,
+    }
+  })
 }
 
 export function buildWordRound(categoryId: CategoryId): LearningTask[] {
